@@ -1,0 +1,107 @@
+{
+	"name": "parserer2",
+	"version": "0.0.0",
+	"description": "A Svelte parser",
+	"scripts": {
+		"build": "vite build",
+		"check": "wireit",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"clear": "rm -rf ./parserer2*.tgz",
+		"dev": "vite dev",
+		"format": "wireit",
+		"lint": "wireit",
+		"pre-commit": "wireit",
+		"preview": "vite preview",
+		"prepare": "husky install",
+		"release": "release-it",
+		"test": "wireit"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"devDependencies": {
+		"@kwangure/eslint-config-svelte": "^0.2.7",
+		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/kit": "^1.5.0",
+		"@sveltejs/package": "^2.0.2",
+		"eslint": "^8.39.0",
+		"husky": "^8.0.3",
+		"svelte": "^3.54.0",
+		"svelte-check": "^3.0.1",
+		"typescript": "^5.0.4",
+		"vite": "^4.3.0",
+		"vitest": "^0.30.1",
+		"wireit": "^0.9.5"
+	},
+	"type": "module",
+	"wireit": {
+		"check": {
+			"command": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+			"files": [
+				"src/**/*.{js,ts}",
+				"tests/**/*.{js,ts}",
+				"tsconfig.json"
+			],
+			"output": []
+		},
+		"format": {
+			"command": "eslint src/**/*.js tests/**/*.js --color --cache --fix",
+			"files": [
+				"src/**/*.{js,ts}",
+				"tests/**/*.{js,ts}",
+				".eslintignore",
+				".eslintrc.cjs"
+			],
+			"output": []
+		},
+		"lint": {
+			"command": "eslint src/**/*.js tests/**/*.js --color --cache",
+			"files": [
+				"src/**/*.{js,ts}",
+				"tests/**/*.{js,ts}",
+				".eslintignore",
+				".eslintrc.cjs"
+			],
+			"output": []
+		},
+		"package": {
+			"command": "svelte-package",
+			"files": [
+				"src/lib/**/*.{js,ts,svelte}"
+			],
+			"output": [
+				"dist/**"
+			]
+		},
+		"prepack": {
+			"dependencies": [
+				"clear",
+				"package"
+			]
+		},
+		"pre-commit": {
+			"dependencies": [
+				"test",
+				"format",
+				"check",
+				"package"
+			]
+		},
+		"test": {
+			"command": "vitest run",
+			"files": [
+				"src/**/*.{js,ts}",
+				"tests/**/*.{js,ts}"
+			],
+			"output": []
+		}
+	}
+}

@@ -1,0 +1,17 @@
+# Build folders
+.svelte-kit
+.wireit
+build
+package
+dist
+
+# Asset folders
+static
+assets
+
+# Miscellaneous
+node_modules
+
+# Svelte requires ESM but Eslint requires CJS
+svelte.config.js
+vite.config.js
