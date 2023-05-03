@@ -28,7 +28,7 @@
 		"!dist/**/*.spec.*"
 	],
 	"devDependencies": {
-		"@kwangure/eslint-config-svelte": "^0.2.8",
+		"@kwangure/eslint-config-svelte": "^0.2.9",
 		"@replit/codemirror-lang-svelte": "^6.0.0",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.5.0",
