@@ -107,5 +107,8 @@
 			],
 			"output": []
 		}
+	},
+	"dependencies": {
+		"@kwangure/strawberry": "^0.58.0"
 	}
 }
