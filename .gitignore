@@ -8,5 +8,6 @@ node_modules
 .env.*
 !.env.example
 .eslintcache
+_actual*.*
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
