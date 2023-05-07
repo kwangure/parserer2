@@ -3,10 +3,8 @@
 	"version": "0.0.0",
 	"description": "A Svelte parser",
 	"scripts": {
-		"build": "vite build",
+		"build": "wireit",
 		"check": "wireit",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"clear": "rm -rf ./parserer2*.tgz",
 		"dev": "vite dev",
 		"format": "wireit",
 		"lint": "wireit",
@@ -15,12 +13,6 @@
 		"prepare": "husky install",
 		"release": "release-it",
 		"test": "wireit"
-	},
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js"
-		}
 	},
 	"files": [
 		"dist",
@@ -37,6 +29,7 @@
 		"eslint": "^8.39.0",
 		"husky": "^8.0.3",
 		"postcss": "^8.4.23",
+		"publint": "^0.1.11",
 		"svelte": "^3.54.0",
 		"svelte-check": "^3.0.1",
 		"tailwindcss": "^3.3.2",
@@ -47,57 +40,87 @@
 	},
 	"type": "module",
 	"wireit": {
+		"build": {
+			"command": "vite build",
+			"files": [
+				"src/**/*.{js,ts,svelte}",
+				"static/**",
+				"svelte.config.js",
+				"vite.config.js"
+			],
+			"output": [
+				"build/**"
+			]
+		},
 		"check": {
 			"command": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 			"files": [
-				"src/**/*.{js,ts}",
-				"tests/**/*.{js,ts}",
+				"{src,test}/**/*.{js,ts,svelte}",
 				"tsconfig.json"
 			],
 			"output": []
 		},
 		"format": {
-			"command": "eslint src/**/*.js tests/**/*.js --color --cache --fix",
+			"command": "eslint \"{src,test}/**/*.{js,svelte}\" --color --cache --fix",
 			"files": [
-				"src/**/*.{js,ts}",
-				"tests/**/*.{js,ts}",
+				"{src,test}/**/*.{js,ts,svelte}",
 				".eslintignore",
 				".eslintrc.cjs"
 			],
 			"output": []
 		},
 		"lint": {
-			"command": "eslint src/**/*.js tests/**/*.js --color --cache",
+			"command": "eslint \"{src,test}/**/*.{js,svelte}\" --color --cache",
 			"files": [
-				"src/**/*.{js,ts}",
-				"tests/**/*.{js,ts}",
+				"{src,test}/**/*.{js,ts,svelte}",
 				".eslintignore",
 				".eslintrc.cjs"
 			],
 			"output": []
 		},
+		"pack": {
+			"command": "npm pack",
+			"dependencies": [
+				"publint"
+			],
+			"files": [
+				"dist/**",
+				"!**/*.test.*",
+				"!**/*.spec.*",
+				"LICENSE",
+				"README.md"
+			],
+			"output": [
+				"parserer2*.tgz"
+			]
+		},
 		"package": {
 			"command": "svelte-package",
 			"files": [
-				"src/lib/**/*.{js,ts,svelte}"
+				"src/lib/**/*.{js,css,ts,svelte}"
 			],
 			"output": [
 				"dist/**"
 			]
 		},
-		"prepack": {
-			"dependencies": [
-				"clear",
-				"package"
-			]
-		},
 		"pre-commit": {
 			"dependencies": [
 				"test",
-				"format",
 				"check",
-				"package"
+				"format",
+				"publint"
 			]
+		},
+		"publint": {
+			"command": "publint",
+			"dependencies": [
+				"package"
+			],
+			"files": [
+				"dist/**",
+				"package.json"
+			],
+			"output": []
 		},
 		"test": {
 			"command": "vitest run",
