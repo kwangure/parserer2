@@ -132,6 +132,7 @@
 		}
 	},
 	"dependencies": {
-		"@kwangure/strawberry": "^0.58.0"
+		"@kwangure/strawberry": "^0.59.0",
+		"hine": "^0.0.8"
 	}
 }

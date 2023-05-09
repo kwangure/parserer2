@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises';
+import fs from 'node:fs';
 import { TEST_SAMPLES_PATH } from '$tests';
 
 export function load({ params }) {
@@ -6,7 +6,7 @@ export function load({ params }) {
 	return {
 		sample: {
 			name,
-			content: fs.readFile(`${TEST_SAMPLES_PATH}/${name}/input.svelte`, 'utf-8'),
+			content: fs.readFileSync(`${TEST_SAMPLES_PATH}/${name}/input.svelte`, 'utf-8'),
 		},
 	};
 }
