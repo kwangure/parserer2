@@ -23,9 +23,24 @@ export function createTextState(context) {
 					context.stack.push(text);
 				},
 			}),
+			finalize: h.action({
+				run() {
+					const popped = context.stack.pop();
+					if (!Object.is(popped, text)) {
+						throw Error(`Expected to find Text node on stack. Found '${popped.type}' instead.`);
+					}
+					text.end = context.index;
+					context.stack
+						.peek({ expect: ['Fragment']})
+						.append(text);
+				},
+			}),
 		},
 		entry: [{
 			actions: ['initialize'],
+		}],
+		exit: [{
+			actions: ['finalize'],
 		}],
 		on: {
 			CHARACTER: [{

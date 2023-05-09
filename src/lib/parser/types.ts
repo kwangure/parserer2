@@ -17,8 +17,11 @@ export interface PTextConfig {
 	end?: number;
 };
 
-export interface PStackConfig {
-
+export interface PFragmentJSON {
+    type: "Fragment";
+    start: number;
+    end: number;
+    children: ReturnType<PTemplateNode['toJSON']>[];
 };
 
 export type PTemplateNode = PFragment

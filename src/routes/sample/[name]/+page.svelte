@@ -1,6 +1,7 @@
 <script>
 	import '@kwangure/strawberry/css/code.css';
 	import { eatCharacter, highlightParsed } from './parse.js';
+	import { Code } from '$lib/components/code';
 	import { createParser } from '$lib/parser';
 	import { stateEventNames } from 'hine';
 
@@ -9,6 +10,7 @@
 	const parser = createParser();
 
 	$: stateEvents = stateEventNames($parser);
+	$: parsedJSON = JSON.stringify($parser.context.html, null, 4);
 </script>
 
 <div>
@@ -50,6 +52,8 @@
 		{/if}
 	{/each}
 </code>
+
+<Code language='json' code={parsedJSON}/>
 
 <style>
 	.parsed {

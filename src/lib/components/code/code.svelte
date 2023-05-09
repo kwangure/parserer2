@@ -1,15 +1,16 @@
 <script>
-	import { css, javascript, svelte } from '@kwangure/strawberry/code';
+	import { css, javascript, json, svelte } from '@kwangure/strawberry/code';
 
 	/** @type {string} */
 	export let code;
-	/** @type {'css' | 'javascript' | 'svelte'} */
+	/** @type {'css' | 'javascript' | 'json' | 'svelte'} */
 	export let language;
 	export let inline = false;
 
 	const SUPPORTED_LANGUAGES = {
 		css,
 		javascript,
+		json,
 		svelte,
 	};
 

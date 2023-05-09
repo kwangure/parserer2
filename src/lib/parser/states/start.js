@@ -11,6 +11,7 @@ export function createStartState(context) {
 					context.index = 0;
 					context.html.clear();
 					context.stack.clear();
+					context.stack.push(context.html);
 				},
 			}),
 		},
