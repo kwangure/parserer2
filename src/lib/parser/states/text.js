@@ -30,9 +30,9 @@ export function createTextState(context) {
 						throw Error(`Expected to find Text node on stack. Found '${popped.type}' instead.`);
 					}
 					text.end = context.index;
-					context.stack
-						.peek({ expect: ['Fragment']})
-						.append(text);
+					const parent = context.stack.peek({ expect: ['Fragment']});
+					parent.append(text);
+					parent.end = context.index;
 				},
 			}),
 		},

@@ -39,3 +39,5 @@ export function createParser() {
 
 	return /** @type {ParserWithContext} */(parserWithContext);
 }
+
+export * from './parse.js';

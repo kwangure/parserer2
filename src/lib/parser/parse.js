@@ -15,6 +15,28 @@ export function eatCharacter(parser, source) {
 }
 
 /**
+ * @param {ReturnType<import('$lib/parser').createParser>} parser
+ * @param {string} source
+ */
+export function parseFile(parser, source) {
+	parser.dispatch('INIT');
+	for (let i = 0; i < source.length; i++) {
+		const char = source[i];
+		parser.dispatch('CHARACTER', char);
+	}
+	parser.dispatch('EOF');
+}
+
+/**
+ * @param {ReturnType<import('$lib/parser').createParser>} parser
+ */
+export function toSvelteAST(parser) {
+	return {
+		html: parser.context.html.toJSON(),
+	};
+}
+
+/**
 * @param {string} text
 * @param {{ from: number; to: number; }} options
 */

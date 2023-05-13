@@ -57,6 +57,7 @@ export class PText {
 			type: this.type,
 			start: this.start,
 			end: this.end,
+			raw: this.raw,
 		};
 	}
 	get type() {

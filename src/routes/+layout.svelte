@@ -10,7 +10,7 @@
 	export let data;
 </script>
 
-<main class='flex'>
+<main class='grid grid-cols-[240px_minmax(500px,_1fr)]'>
 	<div class="br-sidebar">
 		<Link href='/'>
 			Getting started

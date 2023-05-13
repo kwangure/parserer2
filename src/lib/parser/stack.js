@@ -59,4 +59,7 @@ export class PStack {
 	get size() {
 		return this.#value.length;
 	}
+	toJSON() {
+		return this.#value.map((node) => node.valueOf());
+	}
 }
