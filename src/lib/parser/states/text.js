@@ -1,8 +1,8 @@
 import { h } from 'hine';
-import { PText } from '../nodes';
+import { PText } from '$lib/parser/nodes';
 
 /**
- * @param {import('../types').ParserContext} context
+ * @param {import('$lib/parser/types').ParserContext} context
  */
 export function createTextState(context) {
 	/** @type {PText} */
@@ -16,10 +16,10 @@ export function createTextState(context) {
 				},
 			}),
 			initialize: h.action({
-				run() {
+				run(value) {
 					text = new PText();
-					text.end = context.index;
 					text.start = context.index;
+					this.ownerState?.actions.addChar.run(value);
 					context.stack.push(text);
 				},
 			}),
@@ -39,21 +39,24 @@ export function createTextState(context) {
 		entry: [{
 			actions: ['initialize'],
 		}],
-		exit: [{
-			actions: ['finalize'],
-		}],
 		on: {
-			CHARACTER: [{
-				actions: [
-					'addChar',
-					'increment',
-				],
-			}],
+			CHARACTER: [
+				{
+					transitionTo: 'tag',
+					condition: 'isTagOpen',
+					actions: ['finalize'],
+				},
+				{
+					actions: ['addChar'],
+				},
+			],
 			EOF: [{
 				transitionTo: 'eof',
+				actions: ['finalize'],
 			}],
 			RESET: [{
 				transitionTo: 'start',
+				actions: ['finalize'],
 			}],
 		},
 	});

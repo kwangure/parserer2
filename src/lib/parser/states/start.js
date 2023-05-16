@@ -1,7 +1,7 @@
 import { h } from 'hine';
 
 /**
- * @param {import('../types').ParserContext} context
+ * @param {import('$lib/parser/types').ParserContext} context
  */
 export function createStartState(context) {
 	return h.atomic({
@@ -20,7 +20,7 @@ export function createStartState(context) {
 		}],
 		on: {
 			INIT: [{
-				transitionTo: 'text',
+				transitionTo: 'fragment',
 			}],
 		},
 	});

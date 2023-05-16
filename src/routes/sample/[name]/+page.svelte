@@ -1,9 +1,9 @@
 <script>
 	import '@kwangure/strawberry/css/code.css';
-	import { eatCharacter, highlightParsed } from '../../../lib/parser/parse.js';
+	import { activePath, stateEventNames } from 'hine';
+	import { eatCharacter, highlightParsed } from '$lib/parser/parse.js';
 	import { Code } from '$lib/components/code';
 	import { createParser } from '$lib/parser';
-	import { stateEventNames } from 'hine';
 
 	export let data;
 
@@ -17,6 +17,12 @@
 	$: stackJSON = JSON.stringify($parser.context.stack, null, 4);
 </script>
 
+<div class="">
+	State Events: {stateEvents}
+</div>
+<div class="">
+	Active Path: {activePath($parser)}
+</div>
 <div class="grid grid-cols-2 gap-2">
 	<div>
 		<div class="flex gap-2">
@@ -25,14 +31,14 @@
 					Start Parsing
 				</button>
 			{/if}
-			{#if stateEvents.includes('CHARACTER')}
+			{#if parser.state?.name !== 'eof' && stateEvents.includes('CHARACTER')}
 				<button on:click={() => eatCharacter(parser, data.sample.content)}>
-					Parse Character
+					Consume Character
 				</button>
 			{/if}
 			{#if stateEvents.includes('RESET')}
 				<button on:click={() => parser.dispatch('RESET')}>
-					Reset
+					Reset to Start
 				</button>
 			{/if}
 		</div>

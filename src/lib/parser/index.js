@@ -1,5 +1,7 @@
 import { createEOFState } from './states/eof.js';
+import { createFragmentState } from './states/fragment.js';
 import { createStartState } from './states/start.js';
+import { createTagState } from './states/tag/tag.js';
 import { createTextState } from './states/text.js';
 import { h } from 'hine';
 import { PFragment } from './nodes.js';
@@ -14,6 +16,7 @@ export function createParser() {
 	};
 
 	const parser = h.compound({
+		name: 'parser',
 		actions: {
 			increment: h.action({
 				run() {
@@ -21,9 +24,22 @@ export function createParser() {
 				},
 			}),
 		},
+		conditions: {
+			isTagOpen: h.condition({
+				/** @param {string} value */
+				run: (value) => value === '<',
+			}),
+		},
+		on: {
+			CHARACTER: [{
+				actions: ['increment'],
+			}],
+		},
 		states: {
 			start: createStartState(context),
 			eof: createEOFState(),
+			fragment: createFragmentState(),
+			tag: createTagState(context),
 			text: createTextState(context),
 		},
 	}).start();

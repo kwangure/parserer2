@@ -1,4 +1,4 @@
-import { createParser, parseFile, toSvelteAST } from '../src/lib/parser';
+import { createParser, parseFile, toSvelteAST } from '$lib/parser';
 import { describe, expect, test } from 'vitest';
 import fs from 'node:fs';
 import { tryToLoadJson } from './helpers.js';
