@@ -15,6 +15,9 @@ export function createFragmentState() {
 			EOF: [{
 				transitionTo: 'eof',
 			}],
+			RESET: [{
+				transitionTo: 'start',
+			}],
 		},
 	});
 }

@@ -35,6 +35,15 @@ export function createTextState(context) {
 					parent.end = context.index;
 				},
 			}),
+			reset: h.action({
+				run() {
+					text.clear();
+					// We know it's not undefined in all other places since `initialize`
+					// runs first. Set to `undefined` so that GC can cleanup.
+					// @ts-ignore
+					text = undefined;
+				},
+			}),
 		},
 		entry: [{
 			actions: ['initialize'],
@@ -56,7 +65,7 @@ export function createTextState(context) {
 			}],
 			RESET: [{
 				transitionTo: 'start',
-				actions: ['finalize'],
+				actions: ['reset'],
 			}],
 		},
 	});

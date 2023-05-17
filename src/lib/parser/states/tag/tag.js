@@ -30,5 +30,10 @@ export function createTagState(context) {
 			selfClose: createSelfCloseState(context),
 			done: h.atomic(),
 		},
+		on: {
+			RESET: [{
+				transitionTo: 'start',
+			}],
+		},
 	});
 }
