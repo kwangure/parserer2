@@ -133,6 +133,6 @@
 	},
 	"dependencies": {
 		"@kwangure/strawberry": "^0.59.1",
-		"hine": "^0.0.9"
+		"hine": "^0.0.10"
 	}
 }

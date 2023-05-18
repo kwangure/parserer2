@@ -1,4 +1,33 @@
+export class PAttribute {
+	#type = /** @type {const} */('Attribute');
+	end = 0;
+	name = '';
+	start = 0;
+	value = /** @type {const} */(true);
+	clear() {
+		this.end = 0;
+		this.name = '';
+		this.start = 0;
+		this.value = true;
+	}
+	/** @returns {import("./types").PAttributeJSON} */
+	toJSON() {
+		return {
+			type: this.type,
+			start: this.start,
+			end: this.end,
+			name: this.name,
+			value: this.value,
+		};
+	}
+	get type() {
+		return this.#type;
+	}
+}
+
 export class PElement {
+	/** @type {PAttribute[]} */
+	#attributes = [];
 	/** @type {import("./types").PTemplateNode[]} */
 	#children = [];
 	#type = /** @type {const} */('Element');
@@ -6,10 +35,13 @@ export class PElement {
 	name = '';
 	start = 0;
 	/**
-	 * @param {PElement | PText} node
+	 * @param {PAttribute | PElement | PText} node
 	 */
 	append(node) {
 		switch (node.type) {
+			case 'Attribute':
+				this.#attributes.push(node);
+				break;
 			case 'Element': {
 				this.#children.push(node);
 				break;
@@ -32,6 +64,7 @@ export class PElement {
 		this.end = 0;
 		this.name = '';
 		this.start = 0;
+		this.#attributes.length = 0;
 		this.#children.length = 0;
 	}
 	/** @returns {import("./types").PElementJSON} */
@@ -41,6 +74,8 @@ export class PElement {
 			start: this.start,
 			end: this.end,
 			name: this.name,
+			attributes: this.#attributes
+				.map((attribute) => attribute.toJSON()),
 			children: this.#children?.map((child) => child.toJSON()),
 		};
 	}

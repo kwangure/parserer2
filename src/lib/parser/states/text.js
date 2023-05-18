@@ -16,10 +16,9 @@ export function createTextState(context) {
 				},
 			}),
 			initialize: h.action({
-				run(value) {
+				run() {
 					text = new PText();
 					text.start = context.index;
-					this.ownerState?.actions.addChar.run(value);
 					context.stack.push(text);
 				},
 			}),
@@ -46,7 +45,10 @@ export function createTextState(context) {
 			}),
 		},
 		entry: [{
-			actions: ['initialize'],
+			actions: [
+				'initialize',
+				'addChar',
+			],
 		}],
 		on: {
 			CHARACTER: [

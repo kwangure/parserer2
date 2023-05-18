@@ -18,23 +18,23 @@ export function createNameState(context) {
 				},
 			}),
 			initialize: h.action({
-				run(value) {
+				run() {
 					element = context.stack.peek({ expect: ['Element']});
-					this.ownerState?.actions.addName.run(value);
 				},
 			}),
 		},
-		conditions: {
-			isForwardSlash: h.condition({
-				/** @param {string} value */
-				run: (value) => value === '/',
-			}),
-		},
 		entry: [{
-			actions: ['initialize'],
+			actions: [
+				'initialize',
+				'addName',
+			],
 		}],
 		on: {
 			CHARACTER: [
+				{
+					transitionTo: 'attribute',
+					condition: 'isWhiteSpace',
+				},
 				{
 					transitionTo: 'selfClose',
 					condition: 'isForwardSlash',

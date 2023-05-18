@@ -1,4 +1,4 @@
-import type { PElement, PFragment, PText } from './nodes.js';
+import type { PAttribute, PElement, PFragment, PText } from './nodes.js';
 import type { PStack } from './stack.js';
 
 export interface ParserContext {
@@ -17,11 +17,20 @@ export interface PTextConfig {
 	end?: number;
 };
 
+export interface PAttributeJSON {
+    type: "Attribute";
+    start: number;
+    end: number;
+	name: string;
+    value: true | [PText];
+};
+
 export interface PElementJSON {
     type: "Element";
     start: number;
     end: number;
 	name: string;
+	attributes: ReturnType<PAttribute['toJSON']>[];
     children: ReturnType<PTemplateNode['toJSON']>[];
 };
 
@@ -32,7 +41,8 @@ export interface PFragmentJSON {
     children: ReturnType<PTemplateNode['toJSON']>[];
 };
 
-export type PTemplateNode = PElement
+export type PTemplateNode = PAttribute
+	| PElement
 	| PFragment
 	| PText;
 
