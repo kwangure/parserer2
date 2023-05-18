@@ -3,7 +3,19 @@ export class PAttribute {
 	end = 0;
 	name = '';
 	start = 0;
-	value = /** @type {const} */(true);
+	value = /** @type {true | PText[]} */(true);
+	/**
+	 * @param {PText} node
+	 */
+	append(node) {
+		switch (node.type) {
+			case 'Text':
+				this.value = [node];
+				break;
+			default:
+				throw Error(`Attribute nodes do not take '${node}' as a child.`);
+		}
+	}
 	clear() {
 		this.end = 0;
 		this.name = '';
@@ -17,7 +29,9 @@ export class PAttribute {
 			start: this.start,
 			end: this.end,
 			name: this.name,
-			value: this.value,
+			value: Array.isArray(this.value)
+				? this.value.map((value) => value.toJSON())
+				: this.value,
 		};
 	}
 	get type() {

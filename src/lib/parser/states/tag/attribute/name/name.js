@@ -5,9 +5,7 @@ import { PAttribute } from '$lib/parser/nodes';
  * @param {import('$lib/parser/types').ParserContext} context
  */
 export function createNameState(context) {
-	/**
-	 * @type {import('$lib/parser/nodes').PAttribute}
-	 */
+	/** @type {PAttribute} */
 	let attribute;
 	return h.atomic({
 		actions: {
@@ -35,6 +33,13 @@ export function createNameState(context) {
 				},
 			}),
 		},
+		conditions: {
+			isEquals: h.condition({
+				run(value) {
+					return value === '=';
+				},
+			}),
+		},
 		entry: [{
 			actions: [
 				'initialize',
@@ -50,6 +55,10 @@ export function createNameState(context) {
 				{
 					transitionTo: 'equals',
 					condition: 'isWhiteSpace',
+				},
+				{
+					transitionTo: 'value',
+					condition: 'isEquals',
 				},
 				{
 					actions: ['addName'],

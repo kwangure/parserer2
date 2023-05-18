@@ -22,7 +22,7 @@ export interface PAttributeJSON {
     start: number;
     end: number;
 	name: string;
-    value: true | [PText];
+    value: true | ReturnType<PText['toJSON']>[];
 };
 
 export interface PElementJSON {
