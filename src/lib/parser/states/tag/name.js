@@ -14,7 +14,7 @@ export function createNameState(context) {
 				/** @param {string} value */
 				run(value) {
 					element.name += value;
-					element.end = context.index;
+					element.end = context.index + 1;
 				},
 			}),
 			initialize: h.action({

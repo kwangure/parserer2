@@ -2,12 +2,12 @@
     "html": {
         "type": "Fragment",
         "start": 0,
-        "end": 17,
+        "end": 18,
         "children": [
             {
                 "type": "Element",
                 "start": 0,
-                "end": 17,
+                "end": 18,
                 "name": "input",
                 "attributes": [
                     {

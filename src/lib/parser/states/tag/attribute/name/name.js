@@ -15,15 +15,8 @@ export function createNameState(context) {
 				/** @param {string} value */
 				run(value) {
 					attribute.name += value;
-					attribute.end = context.index;
+					attribute.end = context.index + 1;
 				},
-			}),
-			finalize: h.action(() => {
-				const current = context.stack.pop({ expect: ['Attribute']});
-				current.end = context.index + 1;
-				const last = context.stack.peek({ expect: ['Element']});
-				last.append(current);
-				last.end = context.index + 1;
 			}),
 			initialize: h.action({
 				run() {
@@ -53,13 +46,15 @@ export function createNameState(context) {
 				{
 					transitionTo: 'done',
 					condition: 'isForwardSlash',
-					actions: ['finalize'],
+				},
+				{
+					transitionTo: 'equals',
+					condition: 'isWhiteSpace',
 				},
 				{
 					actions: ['addName'],
 				},
 			],
-
 			RESET: [{
 				actions: ['reset'],
 			}],

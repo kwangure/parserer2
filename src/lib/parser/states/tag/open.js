@@ -10,7 +10,7 @@ export function createOpenState(context) {
 			initialize: h.action({
 				run() {
 					const element = new PElement();
-					element.end = context.index;
+					element.end = context.index + 1;
 					element.start = context.index;
 					context.stack.push(element);
 				},
