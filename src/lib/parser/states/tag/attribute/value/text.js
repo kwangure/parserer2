@@ -56,6 +56,10 @@ export function createTextState(context) {
 					condition: 'isForwardSlash',
 				},
 				{
+					transitionTo: 'done',
+					condition: 'isWhiteSpace',
+				},
+				{
 					actions: ['addChar'],
 				},
 			],

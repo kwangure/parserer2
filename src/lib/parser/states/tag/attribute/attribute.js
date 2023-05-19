@@ -9,20 +9,37 @@ import { h } from 'hine';
  */
 export function createAttributeState(context) {
 	return h.compound({
-		always: [
-			{
-				transitionTo: 'selfClose',
-				condition: 'isForwardSlash',
-				actions: ['finalize'],
-			},
-		],
 		actions: {
-			finalize: h.action(() => {
-				const attribute = context.stack.pop({ expect: ['Attribute']});
-				const element = context.stack.peek({ expect: ['Element']});
-				element.append(attribute);
-				element.end = context.index + 1;
+			finalize: h.action({
+				run() {
+					const attribute = context.stack.pop({ expect: ['Attribute']});
+					const element = context.stack.peek({ expect: ['Element']});
+					element.append(attribute);
+					element.end = context.index + 1;
+				},
 			}),
+		},
+		conditions: {
+			isValueWhiteSpace: h.condition({
+				run() {
+					return Boolean(this.ownerState?.matches('attribute.done'));
+				},
+			}),
+		},
+		exit: [{
+			actions: ['finalize'],
+		}],
+		on: {
+			CHARACTER: [
+				{
+					transitionTo: 'selfClose',
+					condition: 'isForwardSlash',
+				},
+				{
+					transitionTo: 'attribute',
+					condition: 'isDone',
+				},
+			],
 		},
 		states: {
 			before: createBeforeState(),
