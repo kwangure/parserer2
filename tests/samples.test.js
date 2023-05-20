@@ -13,11 +13,21 @@ describe('parse', () => {
 
 		if (solo && process.env.CI) {
 			throw new Error(
-				`Forgot to remove '.solo' from test parser/samples/${dir}`,
+				`Forgot to remove '.solo' from test test/samples/${dir}`,
 			);
 		}
 
-		const skip = !fs.existsSync(`${__dirname}/samples/${dir}/input.svelte`);
+		// add .skip to a sample directory name to skip that test
+		let skip = (/\.skip$/).test(dir);
+		if (skip && process.env.CI) {
+			throw new Error(
+				`Forgot to remove '.skip' from test test/samples/${dir}`,
+			);
+		}
+
+		if (!fs.existsSync(`${__dirname}/samples/${dir}/input.svelte`)) {
+			skip = true;
+		}
 
 		/** @type {typeof test | typeof test.skip} */
 		let runner = test;
