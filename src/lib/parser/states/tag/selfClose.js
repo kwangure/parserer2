@@ -6,7 +6,7 @@ import { h } from 'hine';
 export function createSelfCloseState(context) {
 	return h.atomic({
 		actions: {
-			finalize: h.action(() => {
+			finalizeElement: h.action(() => {
 				const current = context.stack.pop({ expect: ['Element']});
 				current.end = context.index + 1;
 				const last = context.stack.peek({ expect: ['Fragment']});
@@ -25,7 +25,7 @@ export function createSelfCloseState(context) {
 				{
 					transitionTo: 'done',
 					condition: 'isTagClose',
-					actions: ['finalize'],
+					actions: ['finalizeElement'],
 				},
 			],
 		},

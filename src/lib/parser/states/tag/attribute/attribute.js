@@ -10,7 +10,7 @@ import { h } from 'hine';
 export function createAttributeState(context) {
 	return h.compound({
 		actions: {
-			finalize: h.action({
+			finalizeAttribute: h.action({
 				run() {
 					const attribute = context.stack.pop({ expect: ['Attribute']});
 					const element = context.stack.peek({ expect: ['Element']});
@@ -27,7 +27,7 @@ export function createAttributeState(context) {
 			}),
 		},
 		exit: [{
-			actions: ['finalize'],
+			actions: ['finalizeAttribute'],
 		}],
 		on: {
 			CHARACTER: [

@@ -24,7 +24,7 @@ export function createTextState(context) {
 					context.stack.push(value);
 				},
 			}),
-			finalize: h.action(() => {
+			finalizeValue: h.action(() => {
 				const value = context.stack.pop({ expect: ['Text']});
 				const attribute = context.stack.peek({ expect: ['Attribute']});
 				attribute.append(value);
@@ -47,7 +47,7 @@ export function createTextState(context) {
 			],
 		}],
 		exit: [{
-			actions: ['finalize'],
+			actions: ['finalizeValue'],
 		}],
 		on: {
 			CHARACTER: [

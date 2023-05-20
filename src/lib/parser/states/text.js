@@ -23,7 +23,7 @@ export function createTextState(context) {
 					context.stack.push(text);
 				},
 			}),
-			finalize: h.action({
+			finalizeText: h.action({
 				run() {
 					const popped = context.stack.pop();
 					if (!Object.is(popped, text)) {
@@ -56,7 +56,7 @@ export function createTextState(context) {
 				{
 					transitionTo: 'tag',
 					condition: 'isTagOpen',
-					actions: ['finalize'],
+					actions: ['finalizeText'],
 				},
 				{
 					actions: ['addChar'],
@@ -64,7 +64,7 @@ export function createTextState(context) {
 			],
 			EOF: [{
 				transitionTo: 'eof',
-				actions: ['finalize'],
+				actions: ['finalizeText'],
 			}],
 			RESET: [{
 				transitionTo: 'start',
