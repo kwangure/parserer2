@@ -13,7 +13,11 @@ export function createBeforeState() {
 					condition: 'isForwardSlash',
 				},
 				{
-					transitionTo: 'text',
+					transitionTo: 'doubleQuoted',
+					condition: 'isDoubleQuote',
+				},
+				{
+					transitionTo: 'unquoted',
 					condition: 'isAlphaCharacter',
 				},
 			],

@@ -25,6 +25,7 @@ export function createAttributeState(context) {
 					return Boolean(this.ownerState?.matches('attribute.done'));
 				},
 			}),
+			isDoubleQuote: h.condition((value) => value === '"'),
 		},
 		on: {
 			CHARACTER: [
