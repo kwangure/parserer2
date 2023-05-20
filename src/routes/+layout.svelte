@@ -10,7 +10,7 @@
 	export let data;
 </script>
 
-<main class='grid grid-cols-[240px_minmax(500px,_1fr)]'>
+<main class='grid grid-cols-[max-content_minmax(500px,_1fr)]'>
 	<div class="br-sidebar">
 		<Link href='/'>
 			Getting started
@@ -27,3 +27,9 @@
 		<slot/>
 	</div>
 </main>
+
+<style>
+	.br-sidebar {
+		width: auto;
+	}
+</style>
