@@ -11,6 +11,7 @@ export function createBeforeState() {
 				{
 					transitionTo: 'done',
 					condition: 'isForwardSlash',
+					actions: ['finalizeAttribute'],
 				},
 			],
 		},

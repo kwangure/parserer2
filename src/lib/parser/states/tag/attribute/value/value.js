@@ -14,6 +14,9 @@ export function createValueState(context) {
 				},
 			}),
 		},
+		exit: [{
+			actions: ['finalizeAttribute'],
+		}],
 		on: {
 			CHARACTER: [
 				{

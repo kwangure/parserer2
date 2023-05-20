@@ -51,6 +51,7 @@ export function createNameState(context) {
 				{
 					transitionTo: 'done',
 					condition: 'isForwardSlash',
+					actions: ['finalizeAttribute'],
 				},
 				{
 					transitionTo: 'equals',

@@ -20,15 +20,12 @@ export function createAttributeState(context) {
 			}),
 		},
 		conditions: {
-			isValueWhiteSpace: h.condition({
+			isDone: h.condition({
 				run() {
 					return Boolean(this.ownerState?.matches('attribute.done'));
 				},
 			}),
 		},
-		exit: [{
-			actions: ['finalizeAttribute'],
-		}],
 		on: {
 			CHARACTER: [
 				{
