@@ -17,6 +17,10 @@ export function createBeforeState() {
 					condition: 'isDoubleQuote',
 				},
 				{
+					transitionTo: 'singleQuoted',
+					condition: 'isSingleQuote',
+				},
+				{
 					transitionTo: 'unquoted',
 					condition: 'isAlphaCharacter',
 				},

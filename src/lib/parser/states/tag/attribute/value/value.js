@@ -1,5 +1,6 @@
 import { createBeforeState } from './before.js';
 import { createDoubleQuotedState } from './double_quoted.js';
+import { createSingleQuotedState } from './single_quoted.js';
 import { createUnquotedState } from './unquoted.js';
 import { h } from 'hine';
 import { PText } from '$lib/parser/nodes';
@@ -75,6 +76,7 @@ export function createValueState(context) {
 		states: {
 			before: createBeforeState(),
 			doubleQuoted: createDoubleQuotedState(),
+			singleQuoted: createSingleQuotedState(),
 			unquoted: createUnquotedState(),
 			done: h.atomic(),
 		},
