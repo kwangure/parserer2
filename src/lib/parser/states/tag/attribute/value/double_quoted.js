@@ -1,12 +1,9 @@
 import { h } from 'hine';
 
-export function createTextState() {
+export function createDoubleQuotedState() {
 	return h.atomic({
 		entry: [{
-			actions: [
-				'initialize',
-				'addChar',
-			],
+			actions: ['initializeQuotedValue'],
 		}],
 		exit: [{
 			actions: [

@@ -4,7 +4,7 @@ export function createUnquotedState() {
 	return h.atomic({
 		entry: [{
 			actions: [
-				'initialize',
+				'initializeUnquotedValue',
 				'addChar',
 			],
 		}],

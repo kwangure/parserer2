@@ -1,5 +1,5 @@
 import { createBeforeState } from './before.js';
-import { createDoubleQuotedState } from './double_quoted/double_quoted.js';
+import { createDoubleQuotedState } from './double_quoted.js';
 import { createUnquotedState } from './unquoted.js';
 import { h } from 'hine';
 import { PText } from '$lib/parser/nodes';
@@ -19,7 +19,15 @@ export function createValueState(context) {
 					value.end = context.index + 1;
 				},
 			}),
-			initialize: h.action({
+			initializeQuotedValue: h.action({
+				run() {
+					value = new PText();
+					value.start = context.index + 1;
+					value.end = context.index + 1;
+					context.stack.push(value);
+				},
+			}),
+			initializeUnquotedValue: h.action({
 				run() {
 					value = new PText();
 					value.start = context.index;
