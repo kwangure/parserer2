@@ -126,7 +126,7 @@
 			"command": "vitest run",
 			"files": [
 				"src/**/*.{js,ts}",
-				"tests/**/*.{js,ts}"
+				"tests/**/*.{js,ts,svelte,json}"
 			],
 			"output": []
 		}
