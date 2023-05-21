@@ -2,6 +2,7 @@
 	import '@kwangure/strawberry/css/code.css';
 	import { activePath, stateEventNames } from 'hine';
 	import { eatCharacter, highlightParsed } from '$lib/parser/parse.js';
+	import { beforeNavigate } from '$app/navigation';
 	import { Code } from '$lib/components/code';
 	import { createParser } from '$lib/parser';
 
@@ -17,6 +18,10 @@
 	$: segments = highlightParsed(data.sample.content, $parser.context.index);
 	$: astJSON = JSON.stringify($parser.context.html, null, 4);
 	$: stackJSON = JSON.stringify($parser.context.stack, null, 4);
+
+	beforeNavigate(() => {
+		parser.dispatch('RESET');
+	});
 </script>
 
 <div class="">
