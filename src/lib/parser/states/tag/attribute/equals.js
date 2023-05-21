@@ -27,6 +27,12 @@ export function createEqualsState() {
 					condition: 'isTagClose',
 					actions: ['finalizeAttribute'],
 				},
+				/**
+				 * TODO: Error if:
+				 * - Open quote with no closing quote e.g. `<tag value=">`
+				 * - Self closing (forward slash) without attribute value e.g `<tag value=/>`
+				 * - Tag end (greater than) without attribute value `<tag value=>`
+				 */
 			],
 		},
 	});
