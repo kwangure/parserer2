@@ -35,6 +35,10 @@ export function createAttributeState(context) {
 					condition: 'isForwardSlash',
 				},
 				{
+					transitionTo: 'done',
+					condition: 'isTagClose',
+				},
+				{
 					transitionTo: 'attribute',
 					condition: 'isDone',
 				},

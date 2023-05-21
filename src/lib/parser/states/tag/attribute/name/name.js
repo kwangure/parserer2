@@ -50,6 +50,11 @@ export function createNameState(context) {
 					actions: ['finalizeAttribute'],
 				},
 				{
+					transitionTo: 'done',
+					condition: 'isTagClose',
+					actions: ['finalizeAttribute'],
+				},
+				{
 					transitionTo: 'equals',
 					condition: 'isWhiteSpace',
 				},
