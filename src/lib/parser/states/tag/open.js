@@ -22,9 +22,14 @@ export function createOpenState(context) {
 		on: {
 			CHARACTER: [
 				{
+					transitionTo: 'end',
+					condition: 'isForwardSlash',
+				},
+				{
 					transitionTo: 'name',
 					condition: 'isAlphaCharacter',
 				},
+				// TODO: Otherwise invalid
 			],
 		},
 	});

@@ -11,20 +11,13 @@ export function createNameState() {
 		on: {
 			CHARACTER: [
 				{
-					transitionTo: 'attribute',
-					condition: 'isWhiteSpace',
-				},
-				{
 					transitionTo: 'done',
 					condition: 'isTagClose',
 				},
 				{
-					transitionTo: 'selfClose',
-					condition: 'isForwardSlash',
-				},
-				{
 					actions: ['addElementName'],
 				},
+				// TODO: Otherwise invalid
 			],
 		},
 	});
