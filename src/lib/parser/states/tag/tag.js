@@ -4,6 +4,8 @@ import { createOpenState } from './open.js';
 import { createSelfCloseState } from './selfClose.js';
 import { h } from 'hine';
 
+const ALPHA_CHARACTER = /[A-z]/;
+
 /**
  * @param {import('$lib/parser/types').ParserContext} context
  */
@@ -16,12 +18,11 @@ export function createTagState(context) {
 		conditions: {
 			isAlphaCharacter: h.condition({
 				/** @param {string} value */
-				run: (value) => (/[A-z]/).test(value),
+				run: (value) => ALPHA_CHARACTER.test(value),
 			}),
 			isDone: h.condition({
 				run() {
-					if (this.ownerState?.type !== 'compound') return false;
-					return this.ownerState.state?.name === 'done';
+					return Boolean(this.ownerState?.matches('tag.done'));
 				},
 			}),
 			isForwardSlash: h.condition({

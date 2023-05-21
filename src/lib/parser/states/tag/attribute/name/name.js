@@ -34,11 +34,7 @@ export function createNameState(context) {
 			}),
 		},
 		conditions: {
-			isEquals: h.condition({
-				run(value) {
-					return value === '=';
-				},
-			}),
+			isEquals: h.condition((value) => value === '='),
 		},
 		entry: [{
 			actions: [
