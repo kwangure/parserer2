@@ -26,6 +26,7 @@ export function createAttributeState(context) {
 				},
 			}),
 			isDoubleQuote: h.condition((value) => value === '"'),
+			isEquals: h.condition((value) => value === '='),
 			isSingleQuote: h.condition((value) => value === '\''),
 		},
 		on: {

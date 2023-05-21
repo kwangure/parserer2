@@ -9,6 +9,10 @@ export function createEqualsState() {
 					condition: 'isWhiteSpace',
 				},
 				{
+					transitionTo: 'value',
+					condition: 'isEquals',
+				},
+				{
 					transitionTo: 'done',
 					condition: 'isForwardSlash',
 					actions: ['finalizeAttribute'],
