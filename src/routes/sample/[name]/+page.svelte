@@ -13,6 +13,8 @@
 	let shownPanel = 'stack';
 
 	$: stateEvents = stateEventNames($parser);
+	$: isEOF = $parser.context.index === data.sample.content.length;
+	$: segments = highlightParsed(data.sample.content, $parser.context.index);
 	$: astJSON = JSON.stringify($parser.context.html, null, 4);
 	$: stackJSON = JSON.stringify($parser.context.stack, null, 4);
 </script>
@@ -33,7 +35,11 @@
 			{/if}
 			{#if parser.state?.name !== 'eof' && stateEvents.includes('CHARACTER')}
 				<button on:click={() => eatCharacter(parser, data.sample.content)}>
-					Consume Character
+					{#if isEOF}
+						Consume EOF
+					{:else}
+						Consume Character
+					{/if}
 				</button>
 			{/if}
 			{#if stateEvents.includes('RESET')}
@@ -42,18 +48,19 @@
 				</button>
 			{/if}
 		</div>
-		<code>
-			{#each highlightParsed(data.sample.content, {
-				from: 0,
-				to: $parser.context.index,
-			}) as { segment, color, parsed }}
-				{#if color}
-					<span class:parsed style='color: var(--br-code-token-{color}-color);'>{segment}</span>
-				{:else}
-					<span class:parsed>{segment}</span>
-				{/if}
-			{/each}
-		</code>
+		{#if stateEvents.includes('INIT')}
+			<Code code={data.sample.content} language='svelte'/>
+		{:else}
+			<code class="px-4 py-3">
+				{#each segments as { color, eof, segment, status }}
+					{#if color}
+						<span class={status} class:eof style='color: var(--br-code-token-{color}-color);'>{segment}</span>
+					{:else}
+						<span class={status} class:eof>{segment}</span>
+					{/if}
+				{/each}
+			</code>
+		{/if}
 	</div>
 	<div class="right">
 		<div>
@@ -73,7 +80,15 @@
 </div>
 
 <style>
-	.parsed {
+	.previous {
 		background-color: hsl(144deg 55% 49% / 30%);
+	}
+	.current {
+		color: hsl(145deg 55% 20%) !important;
+		background-color: #fff;
+		border-radius: 2px;
+	}
+	.eof.current {
+		background-color: hsl(205deg 55% 49%);
 	}
 </style>

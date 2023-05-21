@@ -17,7 +17,7 @@
 	$: highlighter = SUPPORTED_LANGUAGES[language];
 </script>
 
-<code class:br-code-inline={inline}>
+<code class:br-code-inline={inline} class='px-4 py-3'>
 	{#if highlighter}
 		{#each highlighter(code) as { segment, color }}
 			{#if color}
