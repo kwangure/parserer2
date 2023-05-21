@@ -13,6 +13,11 @@ export function createBeforeState() {
 					condition: 'isForwardSlash',
 					actions: ['finalizeAttribute'],
 				},
+				{
+					transitionTo: 'done',
+					condition: 'isTagClose',
+					actions: ['finalizeAttribute'],
+				},
 			],
 		},
 	});
