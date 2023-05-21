@@ -45,15 +45,9 @@ export function createParser() {
 	}).start();
 
 
-	const parserWithContext = Object.assign(parser, { context });
-
-	/**
-	 * Teach TypeScript that the writable value has a `context` property
-	 *
-	 * @typedef {typeof parserWithContext & import('svelte/store').Writable<typeof parserWithContext>} ParserWithContext
-	 */
-
-	return /** @type {ParserWithContext} */(parserWithContext);
+	return /** @type {import('./types').WritableParserWithContext} */(
+		Object.assign(parser, { context })
+	);
 }
 
 export * from './parse.js';

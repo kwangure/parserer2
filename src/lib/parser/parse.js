@@ -28,7 +28,7 @@ export function parseFile(parser, source) {
 }
 
 /**
- * @param {ReturnType<import('$lib/parser').createParser>} parser
+ * @param {import('./types').ParserWithContext} parser
  */
 export function toSvelteAST(parser) {
 	return {

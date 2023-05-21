@@ -1,11 +1,17 @@
+import type { CompoundState } from 'hine';
 import type { PAttribute, PElement, PFragment, PText } from './nodes.js';
 import type { PStack } from './stack.js';
+import type { Writable } from 'svelte/store';
 
 export interface ParserContext {
 	index: number;
 	html: PFragment;
 	stack: PStack;
 }
+
+export type ParserWithContext = CompoundState & { context: ParserContext };
+
+export type WritableParserWithContext = ParserWithContext & Writable<ParserWithContext>;
 
 export interface PFragmentConfig {
 	start: number;
