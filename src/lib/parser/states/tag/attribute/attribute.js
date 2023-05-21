@@ -1,5 +1,5 @@
 import { createBeforeState } from './name/before.js';
-import { createEqualsState } from './equals/equals.js';
+import { createEqualsState } from './equals.js';
 import { createNameState } from './name/name.js';
 import { createValueState } from './value/value.js';
 import { h } from 'hine';

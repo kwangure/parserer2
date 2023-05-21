@@ -1,6 +1,6 @@
 import { h } from 'hine';
 
-export function createBeforeState() {
+export function createEqualsState() {
 	return h.atomic({
 		on: {
 			CHARACTER: [
