@@ -13,6 +13,11 @@ export function createEqualsState() {
 					condition: 'isEquals',
 				},
 				{
+					transitionTo: 'name',
+					condition: 'isAlphaCharacter',
+					actions: ['finalizeAttribute'],
+				},
+				{
 					transitionTo: 'done',
 					condition: 'isForwardSlash',
 					actions: ['finalizeAttribute'],
