@@ -8,21 +8,23 @@ export function createUnquotedState() {
 				'addChar',
 			],
 		}],
-		exit: [{
-			actions: [
-				'finalizeUnquotedValue',
-				'finalizeAttribute',
-			],
-		}],
 		on: {
 			CHARACTER: [
 				{
 					transitionTo: 'done',
 					condition: 'isForwardSlash',
+					actions: [
+						'finalizeUnquotedValue',
+						'finalizeAttribute',
+					],
 				},
 				{
 					transitionTo: 'done',
 					condition: 'isWhiteSpace',
+					actions: [
+						'finalizeUnquotedValue',
+						'finalizeAttribute',
+					],
 				},
 				{
 					actions: ['addChar'],

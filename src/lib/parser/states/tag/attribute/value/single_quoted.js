@@ -5,17 +5,15 @@ export function createSingleQuotedState() {
 		entry: [{
 			actions: ['initializeQuotedValue'],
 		}],
-		exit: [{
-			actions: [
-				'finalizeQuotedValue',
-				'finalizeAttribute',
-			],
-		}],
 		on: {
 			CHARACTER: [
 				{
 					transitionTo: 'done',
 					condition: 'isSingleQuote',
+					actions: [
+						'finalizeQuotedValue',
+						'finalizeAttribute',
+					],
 				},
 				{
 					actions: ['addChar'],

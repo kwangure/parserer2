@@ -5,17 +5,15 @@ export function createDoubleQuotedState() {
 		entry: [{
 			actions: ['initializeQuotedValue'],
 		}],
-		exit: [{
-			actions: [
-				'finalizeQuotedValue',
-				'finalizeAttribute',
-			],
-		}],
 		on: {
 			CHARACTER: [
 				{
 					transitionTo: 'done',
 					condition: 'isDoubleQuote',
+					actions: [
+						'finalizeQuotedValue',
+						'finalizeAttribute',
+					],
 				},
 				{
 					actions: ['addChar'],

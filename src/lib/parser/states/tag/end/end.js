@@ -29,14 +29,12 @@ export function createEndState(context) {
 				},
 			}),
 		},
-		exit: [{
-			actions: ['finalizeElement'],
-		}],
 		on: {
 			CHARACTER: [
 				{
 					transitionTo: 'done',
 					condition: 'isDone',
+					actions: ['finalizeElement'],
 				},
 			],
 		},
