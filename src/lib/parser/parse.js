@@ -34,36 +34,26 @@ export function toSvelteAST(parser) {
 }
 
 /**
-* @param {string} text
-* @param {number} index
-*/
+ * @param {string} text
+ * @param {number} index
+ */
 export function highlightParsed(text, index) {
 	const previous = svelte(text, { from: 0, to: index });
 	const current = svelte(text, { from: index, to: index + 1 });
 	const next = svelte(text, { from: index + 1 });
+
 	return [
 		...previous.map((segments) => ({
-			eof: false,
 			...segments,
 			status: /** @type {const} */('previous'),
 		})),
 		...current.map((segments) => ({
-			eof: false,
 			...segments,
 			status: /** @type {const} */('current'),
 		})),
 		...next.map((segments) => ({
-			eof: false,
 			...segments,
 			status: /** @type {const} */('next'),
 		})),
-		{
-			eof: true,
-			segment: ' ',
-			color: '',
-			status: index === text.length
-				? /** @type {const} */('current')
-				: /** @type {const} */('next'),
-		},
 	];
 }

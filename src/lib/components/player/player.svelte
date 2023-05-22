@@ -2,6 +2,7 @@
 	import { eatUntil, highlightParsed, parseFile } from '$lib/parser/parse.js';
 	import { mdiPlay, mdiRestore, mdiStepBackward, mdiStepForward } from '@mdi/js';
 	import { Icon } from '$lib/components';
+	import Scrubber from './scrubber.svelte';
 	import { stateEventNames } from 'hine';
 
 	/** @type {string} */
@@ -23,36 +24,42 @@
 
 	function stepBackward() {
 		if (!parser.context.index) return;
-		const parseUntil = parser.context.index - 1;
+		const parseUntil = parser.matches('parser.eof')
+			? parser.context.index
+			: parser.context.index - 1;
 		parser.dispatch('RESET');
 		eatUntil(parser, code, parseUntil);
 	}
 </script>
 
-<div class="rounded">
+<div class="player rounded">
 	<code class="px-4 py-3">
-		{#each segments as { color, eof, segment, status }}
+		{#each segments as { color, segment, status }}
 			{#if color}
-				<span class={status} class:eof style='color: var(--br-code-token-{color}-color);'>{segment}</span>
+				<span class={status} style='color: var(--br-code-token-{color}-color);'>{segment}</span>
 			{:else}
-				<span class={status} class:eof>{segment}</span>
+				<span class={status}>{segment}</span>
 			{/if}
 		{/each}
+		<span class:previous={$parser.matches('parser.eof')}
+			class:current={code.length === index && !$parser.matches('parser.eof')}
+			class="eof px-0.5 rounded-sm">EOF</span>
 	</code>
+	<Scrubber {code} {parser}/>
 	<div>
-		<button on:click={stepBackward}>
+		<button on:click={stepBackward} title='Step one character backward'>
 			<Icon path={mdiStepBackward}/>
 		</button>
-		{#if stateEvents.includes('CHARACTER')}
-			<button on:click={() => parseFile(parser, code)}>
+		{#if !$parser.matches('parser.eof')}
+			<button on:click={() => parseFile(parser, code)} title='Parse to end of file'>
 				<Icon path={mdiPlay}/>
 			</button>
+			<button on:click={stepForward} title='Step one character forward'>
+				<Icon path={mdiStepForward}/>
+			</button>
 		{/if}
-		<button on:click={stepForward}>
-			<Icon path={mdiStepForward}/>
-		</button>
 		{#if stateEvents.includes('RESET')}
-			<button on:click={() => parser.dispatch('RESET')}>
+			<button on:click={() => parser.dispatch('RESET')} title='Reset cursor to start'>
 				<Icon path={mdiRestore}/>
 			</button>
 		{/if}
@@ -60,6 +67,13 @@
 </div>
 
 <style>
+	.player {
+		--previous-bg-color: 144deg 55% 49%;
+		--current-bg-color: 0deg 0% 100%;
+		--current-color: 145deg 55% 20%;
+		--next-bg-color: var(--br-light, 215deg 100% 85%) var(--br-dark, 0deg 0% 50%);
+		--eof-bg-color: 205deg 55% 49%;
+	}
 	code {
 		background-color: #000;
 	}
@@ -67,15 +81,34 @@
 		border: 1px solid transparent;
 		background-color: #333;
 	}
-	.previous {
-		background-color: hsl(144deg 55% 49% / 30%);
+	.previous:not(.eof) {
+		background-color: hsl(var(--previous-bg-color) / 40%);
 	}
-	.current {
-		color: hsl(145deg 55% 20%) !important;
-		background-color: #fff;
+	.current:not(.eof) {
+		color: hsl(var(--current-color)) !important;
+		background-color: hsl(var(--current-bg-color));
 		border-radius: 2px;
 	}
+	.eof {
+		margin-left: -1ch;
+		border: 1px solid hsl(var(--eof-bg-color));
+		color: hsl(var(--eof-bg-color) / 80%);
+	}
 	.eof.current {
-		background-color: hsl(205deg 55% 49%);
+		color: #fff;
+		background-color: hsl(var(--eof-bg-color) / 80%);
+	}
+	.eof.previous {
+		color: #fff;
+		border-color: hsl(var(--previous-bg-color));
+		background-color: hsl(var(--previous-bg-color) / 80%);
+	}
+	.scrubber {
+		background-color: #aaa;
+		height: 3px;
+	}
+	.progress {
+		background-color: var(--br-dark, hsl(225deg 100% 60%)) var(--br-light, hsl(225deg 100% 55%));
+		height: 100%;
 	}
 </style>
