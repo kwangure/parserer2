@@ -20,11 +20,6 @@ export function createAttributeState(context) {
 			}),
 		},
 		conditions: {
-			isDone: h.condition({
-				run() {
-					return Boolean(this.ownerState?.matches('attribute.done'));
-				},
-			}),
 			isDoubleQuote: h.condition((value) => value === '"'),
 			isEquals: h.condition((value) => value === '='),
 			isSingleQuote: h.condition((value) => value === '\''),
@@ -38,10 +33,6 @@ export function createAttributeState(context) {
 				{
 					transitionTo: 'done',
 					condition: 'isTagClose',
-				},
-				{
-					transitionTo: 'attribute',
-					condition: 'isDone',
 				},
 			],
 		},

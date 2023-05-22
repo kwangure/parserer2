@@ -68,7 +68,8 @@ export function createValueState(context) {
 		on: {
 			CHARACTER: [
 				{
-					transitionTo: 'done',
+					// attribute.before
+					transitionTo: 'before',
 					condition: 'isDone',
 				},
 			],
