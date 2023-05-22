@@ -1,29 +1,26 @@
 import { svelte } from '@kwangure/strawberry/code';
 
 /**
- * @param {ReturnType<import('$lib/parser').createParser>} parser
+ * @param {import('./types').ParserWithContext} parser
  * @param {string} source
+ * @param {number} until
  */
-export function eatCharacter(parser, source) {
-	const { length } = source;
-	const { index } = parser.context;
-	if (index < length) {
-		parser.dispatch('CHARACTER', source[index]);
-	} else if (index === length) {
-		parser.dispatch('EOF');
+export function eatUntil(parser, source, until) {
+	if (parser.matches('parser.start')) {
+		parser.dispatch('INIT');
+	}
+	for (let i = parser.context.index; i < until; i++) {
+		const char = source[i];
+		parser.dispatch('CHARACTER', char);
 	}
 }
 
 /**
- * @param {ReturnType<import('$lib/parser').createParser>} parser
+ * @param {import('./types').ParserWithContext} parser
  * @param {string} source
  */
 export function parseFile(parser, source) {
-	parser.dispatch('INIT');
-	for (let i = 0; i < source.length; i++) {
-		const char = source[i];
-		parser.dispatch('CHARACTER', char);
-	}
+	eatUntil(parser, source, source.length);
 	parser.dispatch('EOF');
 }
 
