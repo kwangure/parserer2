@@ -35,11 +35,7 @@
 <div class="player rounded">
 	<code class="px-4 py-3">
 		{#each segments as { color, segment, status }}
-			{#if color}
-				<span class={status} style='color: var(--br-code-token-{color}-color);'>{segment}</span>
-			{:else}
-				<span class={status}>{segment}</span>
-			{/if}
+			<span class='br-token-{color} {status}'>{segment}</span>
 		{/each}
 		<span class:previous={$parser.matches('parser.eof')}
 			class:current={code.length === index && !$parser.matches('parser.eof')}
