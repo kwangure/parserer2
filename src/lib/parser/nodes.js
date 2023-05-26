@@ -3,12 +3,13 @@ export class PAttribute {
 	end = 0;
 	name = '';
 	start = 0;
-	value = /** @type {true | PText[]} */(true);
+	value = /** @type {true | (PMustache | PText)[]} */(true);
 	/**
-	 * @param {PText} node
+	 * @param {PMustache | PText} node
 	 */
 	append(node) {
 		switch (node.type) {
+			case 'Mustache':
 			case 'Text':
 				this.value = [node];
 				break;
@@ -138,6 +139,29 @@ export class PFragment {
 			start: this.start,
 			end: this.end,
 			children: this.#children?.map((child) => child.toJSON()),
+		};
+	}
+	get type() {
+		return this.#type;
+	}
+}
+
+export class PMustache {
+	#type = /** @type {const} */('Mustache');
+	end = 0;
+	raw = '';
+	start = 0;
+	clear() {
+		this.end = 0;
+		this.raw = '';
+		this.start = 0;
+	}
+	toJSON() {
+		return {
+			type: this.type,
+			start: this.start,
+			end: this.end,
+			raw: this.raw,
 		};
 	}
 	get type() {

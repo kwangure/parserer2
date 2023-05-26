@@ -21,6 +21,8 @@ export function createAttributeState(context) {
 		},
 		conditions: {
 			isDoubleQuote: h.condition((value) => value === '"'),
+			isMustacheClose: h.condition((value) => value === '}'),
+			isMustacheOpen: h.condition((value) => value === '{'),
 			isEquals: h.condition((value) => value === '='),
 			isSingleQuote: h.condition((value) => value === '\''),
 		},

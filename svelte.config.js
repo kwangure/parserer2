@@ -10,6 +10,12 @@ const config = {
 		alias: {
 			$tests: './tests',
 		},
+		typescript: {
+			config: (config) => {
+				config.include = config.include
+					.filter((pattern) => pattern !== '../tests/**/*.svelte');
+			},
+		},
 	},
 };
 

@@ -17,6 +17,10 @@ export function createBeforeState() {
 					condition: 'isDoubleQuote',
 				},
 				{
+					transitionTo: 'mustache',
+					condition: 'isMustacheOpen',
+				},
+				{
 					transitionTo: 'singleQuoted',
 					condition: 'isSingleQuote',
 				},

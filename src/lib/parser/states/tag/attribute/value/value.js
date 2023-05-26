@@ -1,5 +1,6 @@
 import { createBeforeState } from './before.js';
 import { createDoubleQuotedState } from './double_quoted.js';
+import { createMustacheState } from './mustache.js';
 import { createSingleQuotedState } from './single_quoted.js';
 import { createUnquotedState } from './unquoted.js';
 import { h } from 'hine';
@@ -77,6 +78,7 @@ export function createValueState(context) {
 		states: {
 			before: createBeforeState(),
 			doubleQuoted: createDoubleQuotedState(),
+			mustache: createMustacheState(context),
 			singleQuoted: createSingleQuotedState(),
 			unquoted: createUnquotedState(),
 			done: h.atomic(),
