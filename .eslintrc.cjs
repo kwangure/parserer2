@@ -3,4 +3,7 @@ module.exports = {
 	extends: [
 		'@kwangure/eslint-config-svelte',
 	],
+	rules: {
+		'import/namespace': 'off',
+	},
 };

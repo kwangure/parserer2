@@ -43,7 +43,8 @@
 	Active Path: {activePath($parser)}
 </div>
 <div class="grid grid-cols-2 gap-2">
-	<Player code={data.sample.content} {parser}/>
+	<Player code={data.sample.content} next={data.next} previous={data.previous}
+		{parser}/>
 	<div class="right">
 		<div>
 			<button class:br-button-primary={shownPanel === 'stack'} on:click={() => shownPanel = 'stack'}>

@@ -1,12 +1,16 @@
 <script>
 	import { eatUntil, highlightParsed, parseFile } from '$lib/parser/parse.js';
-	import { mdiPlay, mdiRestore, mdiStepBackward, mdiStepForward } from '@mdi/js';
+	import { mdiPlay, mdiRestore, mdiSkipNext, mdiSkipPrevious, mdiStepBackward, mdiStepForward } from '@mdi/js';
 	import { Icon } from '$lib/components';
 	import Scrubber from './scrubber.svelte';
 	import { stateEventNames } from 'hine';
 
 	/** @type {string} */
 	export let code;
+	/** @type {string} */
+	export let next;
+	/** @type {string} */
+	export let previous;
 	/** @type {import('$lib/parser/types').WritableParserWithContext} */
 	export let parser;
 
@@ -43,6 +47,11 @@
 	</code>
 	<Scrubber {code} {parser}/>
 	<div>
+		{#if previous}
+			<a role="button" href="/sample/{previous}" title="Go to previous test sample">
+				<Icon path={mdiSkipPrevious}/>
+			</a>
+		{/if}
 		<button on:click={stepBackward} title='Step one character backward'>
 			<Icon path={mdiStepBackward}/>
 		</button>
@@ -53,6 +62,11 @@
 			<button on:click={stepForward} title='Step one character forward'>
 				<Icon path={mdiStepForward}/>
 			</button>
+		{/if}
+		{#if next}
+			<a role="button" href="/sample/{next}" title="Go to next test sample">
+				<Icon path={mdiSkipNext}/>
+			</a>
 		{/if}
 		{#if stateEvents.includes('RESET')}
 			<button on:click={() => parser.dispatch('RESET')} title='Reset cursor to start'>
@@ -73,7 +87,8 @@
 	code {
 		background-color: #000;
 	}
-	button {
+	button,
+	a[role=button] {
 		border: 1px solid transparent;
 		background-color: #333;
 	}
