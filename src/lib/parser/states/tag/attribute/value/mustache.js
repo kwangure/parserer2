@@ -19,7 +19,7 @@ export function createMustacheState(context) {
 			initializeMustacheValue: h.action({
 				run() {
 					value = new PMustache();
-					value.start = context.index + 1;
+					value.start = context.index;
 					value.end = context.index + 1;
 					context.stack.push(value);
 				},
@@ -28,6 +28,7 @@ export function createMustacheState(context) {
 				const value = context.stack.pop({ expect: ['Mustache']});
 				const attribute = context.stack.peek({ expect: ['Attribute']});
 				attribute.append(value);
+				value.end = context.index + 1;
 				attribute.end = context.index + 1;
 			}),
 		},
