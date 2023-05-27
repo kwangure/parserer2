@@ -27,7 +27,7 @@ export class PAttribute {
 	/** @returns {import("./types").PAttributeJSON} */
 	toJSON() {
 		return {
-			type: this.type,
+			type: this.#type,
 			start: this.start,
 			end: this.end,
 			name: this.name,
@@ -86,7 +86,7 @@ export class PElement {
 	/** @returns {import("./types").PElementJSON} */
 	toJSON() {
 		return {
-			type: this.type,
+			type: this.#type,
 			start: this.start,
 			end: this.end,
 			name: this.name,
@@ -129,7 +129,7 @@ export class PFragment {
 	/** @returns {import("./types").PFragmentJSON} */
 	toJSON() {
 		return {
-			type: this.type,
+			type: this.#type,
 			start: this.start,
 			end: this.end,
 			children: this.#children?.map((child) => child.toJSON()),
@@ -152,7 +152,7 @@ export class PMustache {
 	}
 	toJSON() {
 		return {
-			type: this.type,
+			type: this.#type,
 			start: this.start,
 			end: this.end,
 			raw: this.raw,
@@ -198,7 +198,7 @@ export class PShorthand {
 	}
 	toJSON() {
 		return {
-			type: this.type,
+			type: this.#type,
 			start: this.start,
 			end: this.end,
 			raw: this.raw,
