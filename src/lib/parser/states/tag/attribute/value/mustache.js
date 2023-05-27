@@ -7,6 +7,7 @@ import { PMustache } from '$lib/parser/nodes';
 export function createMustacheState(context) {
 	/** @type {import('$lib/parser/nodes').PMustache} */
 	let value;
+	let nestingLevel = 0;
 	return h.atomic({
 		actions: {
 			addChar: h.action({
@@ -15,6 +16,12 @@ export function createMustacheState(context) {
 					value.raw += char;
 					value.end = context.index + 1;
 				},
+			}),
+			decrementNesting: h.action(() => {
+				nestingLevel -= 1;
+			}),
+			incrementNesting: h.action(() => {
+				nestingLevel += 1;
 			}),
 			initializeMustacheValue: h.action({
 				run() {
@@ -33,13 +40,31 @@ export function createMustacheState(context) {
 			}),
 		},
 		entry: [{
-			actions: ['initializeMustacheValue'],
+			actions: [
+				'initializeMustacheValue',
+				'incrementNesting',
+			],
 		}],
+		conditions: {
+			isMustacheDone: h.condition({
+				run() {
+					return nestingLevel === 0;
+				},
+			}),
+		},
 		on: {
 			CHARACTER: [
 				{
-					transitionTo: 'done',
+					condition: 'isMustacheOpen',
+					actions: ['incrementNesting'],
+				},
+				{
 					condition: 'isMustacheClose',
+					actions: ['decrementNesting'],
+				},
+				{
+					transitionTo: 'done',
+					condition: 'isMustacheDone',
 					actions: [
 						'finalizeMustacheValue',
 						'finalizeAttribute',
