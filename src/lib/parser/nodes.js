@@ -41,6 +41,24 @@ export class PAttribute {
 	}
 }
 
+export class PBlock {
+	#type = /** @type {const} */('Block');
+	end = 0;
+	name = '';
+	start = 0;
+	toJSON() {
+		return {
+			type: this.#type,
+			start: this.start,
+			end: this.end,
+			name: this.name,
+		};
+	}
+	get type() {
+		return this.#type;
+	}
+}
+
 export class PElement {
 	/** @type {PAttribute[]} */
 	#attributes = [];

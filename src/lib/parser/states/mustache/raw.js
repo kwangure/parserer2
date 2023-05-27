@@ -4,7 +4,7 @@ import { PMustache } from '$lib/parser/nodes';
 /**
  * @param {import('$lib/parser/types').ParserContext} context
  */
-export function createMustacheState(context) {
+export function createRawState(context) {
 	/** @type {import('$lib/parser/nodes').PMustache} */
 	let mustache;
 	let nestingLevel = 0;
@@ -26,7 +26,7 @@ export function createMustacheState(context) {
 			initializeMustacheValue: h.action({
 				run() {
 					mustache = new PMustache();
-					mustache.start = context.index;
+					mustache.start = context.index - 1;
 					mustache.end = context.index + 1;
 					context.stack.push(mustache);
 				},
@@ -52,6 +52,7 @@ export function createMustacheState(context) {
 			actions: [
 				'initializeMustacheValue',
 				'incrementNesting',
+				'addChar',
 			],
 		}],
 		conditions: {
@@ -72,7 +73,7 @@ export function createMustacheState(context) {
 					actions: ['decrementNesting'],
 				},
 				{
-					transitionTo: 'fragment',
+					transitionTo: 'done',
 					condition: 'isMustacheDone',
 					actions: [
 						'finalizeMustacheValue',

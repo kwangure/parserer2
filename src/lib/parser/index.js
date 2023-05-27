@@ -1,6 +1,6 @@
 import { createEOFState } from './states/eof.js';
 import { createFragmentState } from './states/fragment.js';
-import { createMustacheState } from './states/mustache.js';
+import { createMustacheState } from './states/mustache/mustache.js';
 import { createStartState } from './states/start.js';
 import { createTagState } from './states/tag/tag.js';
 import { createTextState } from './states/text.js';
