@@ -51,7 +51,7 @@ export class PElement {
 	name = '';
 	start = 0;
 	/**
-	 * @param {PAttribute | PElement | PText} node
+	 * @param {PAttribute | PElement | PMustache | PText} node
 	 */
 	append(node) {
 		switch (node.type) {
@@ -107,21 +107,14 @@ export class PFragment {
 	end = 0;
 	start = 0;
 	/**
-	 * @param {PElement | PText} node
+	 * @param {PElement | PMustache | PText} node
 	 */
 	append(node) {
 		switch (node.type) {
 			case 'Element':
-				this.#children.push(node);
-				break;
+			case 'Mustache':
 			case 'Text': {
-				const lastChild = this.#children.at(-1);
-				if (lastChild?.type === 'Text') {
-					lastChild.end = node.end;
-					lastChild.raw += node.raw;
-				} else {
-					this.#children.push(node);
-				}
+				this.#children.push(node);
 				break;
 			}
 			default:

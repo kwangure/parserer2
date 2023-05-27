@@ -42,7 +42,6 @@ export function createTagState(context) {
 				},
 			}),
 			isForwardSlash: h.condition((value) => value === '/'),
-			isTagClose: h.condition((value) => value === '>'),
 			isWhiteSpace: h.condition((value) => value === ' '),
 		},
 		states: {

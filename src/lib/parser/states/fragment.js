@@ -9,6 +9,10 @@ export function createFragmentState() {
 					condition: 'isTagOpen',
 				},
 				{
+					transitionTo: 'mustache',
+					condition: 'isMustacheOpen',
+				},
+				{
 					transitionTo: 'text',
 				},
 			],

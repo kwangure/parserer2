@@ -1,5 +1,6 @@
 import { createEOFState } from './states/eof.js';
 import { createFragmentState } from './states/fragment.js';
+import { createMustacheState } from './states/mustache.js';
 import { createStartState } from './states/start.js';
 import { createTagState } from './states/tag/tag.js';
 import { createTextState } from './states/text.js';
@@ -25,10 +26,10 @@ export function createParser() {
 			}),
 		},
 		conditions: {
-			isTagOpen: h.condition({
-				/** @param {string} value */
-				run: (value) => value === '<',
-			}),
+			isMustacheClose: h.condition((value) => value === '}'),
+			isMustacheOpen: h.condition((value) => value === '{'),
+			isTagClose: h.condition((value) => value === '>'),
+			isTagOpen: h.condition((value) => value === '<'),
 		},
 		on: {
 			CHARACTER: [{
@@ -39,6 +40,7 @@ export function createParser() {
 			start: createStartState(context),
 			eof: createEOFState(),
 			fragment: createFragmentState(),
+			mustache: createMustacheState(context),
 			tag: createTagState(context),
 			text: createTextState(context),
 		},
