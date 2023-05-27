@@ -10,7 +10,7 @@
 	export let data;
 </script>
 
-<main class='grid grid-cols-[max-content_minmax(500px,_1fr)]'>
+<main class='h-full grid grid-cols-[max-content_minmax(500px,_1fr)]'>
 	<div class="br-sidebar">
 		<Link href='/'>
 			Getting started
