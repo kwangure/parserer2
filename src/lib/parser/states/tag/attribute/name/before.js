@@ -16,6 +16,10 @@ export function createBeforeState() {
 					transitionTo: 'name',
 					condition: 'isAlphaCharacter',
 				},
+				{
+					transitionTo: 'shorthand',
+					condition: 'isMustacheOpen',
+				},
 			],
 		},
 	});

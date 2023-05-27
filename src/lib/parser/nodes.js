@@ -3,13 +3,14 @@ export class PAttribute {
 	end = 0;
 	name = '';
 	start = 0;
-	value = /** @type {true | (PMustache | PText)[]} */(true);
+	value = /** @type {true | (PMustache | PShorthand | PText)[]} */(true);
 	/**
-	 * @param {PMustache | PText} node
+	 * @param {PMustache | PShorthand | PText} node
 	 */
 	append(node) {
 		switch (node.type) {
 			case 'Mustache':
+			case 'AttributeShorthand':
 			case 'Text':
 				this.value = [node];
 				break;
@@ -171,6 +172,29 @@ export class PMustache {
 
 export class PText {
 	#type = /** @type {const} */('Text');
+	end = 0;
+	raw = '';
+	start = 0;
+	clear() {
+		this.end = 0;
+		this.raw = '';
+		this.start = 0;
+	}
+	toJSON() {
+		return {
+			type: this.type,
+			start: this.start,
+			end: this.end,
+			raw: this.raw,
+		};
+	}
+	get type() {
+		return this.#type;
+	}
+}
+
+export class PShorthand {
+	#type = /** @type {const} */('AttributeShorthand');
 	end = 0;
 	raw = '';
 	start = 0;

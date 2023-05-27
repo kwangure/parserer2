@@ -1,4 +1,4 @@
-import type { PAttribute, PElement, PFragment, PMustache, PText } from './nodes.js';
+import type { PAttribute, PElement, PFragment, PMustache, PShorthand, PText } from './nodes.js';
 import type { CompoundState } from 'hine';
 import type { PStack } from './stack.js';
 import type { Writable } from 'svelte/store';
@@ -28,7 +28,7 @@ export interface PAttributeJSON {
     start: number;
     end: number;
 	name: string;
-    value: true | (ReturnType<PMustache['toJSON']> | ReturnType<PText['toJSON']>)[];
+    value: true | (ReturnType<PMustache['toJSON'] | PShorthand['toJSON'] | PText['toJSON']>)[];
 };
 
 export interface PElementJSON {
@@ -51,6 +51,7 @@ export type PTemplateNode = PAttribute
 	| PElement
 	| PFragment
 	| PMustache
+	| PShorthand
 	| PText;
 
 export {};
