@@ -3,7 +3,7 @@ import { h } from 'hine';
 export function createSingleQuotedState() {
 	return h.atomic({
 		entry: [{
-			actions: ['initializeQuotedValue'],
+			actions: ['initializeTextValue'],
 		}],
 		on: {
 			CHARACTER: [

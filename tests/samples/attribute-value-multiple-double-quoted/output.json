@@ -18,8 +18,8 @@
                         "value": [
                             {
                                 "type": "Text",
-                                "start": 13,
-                                "end": 17,
+                                "start": 12,
+                                "end": 18,
                                 "raw": "text"
                             }
                         ]
@@ -32,8 +32,8 @@
                         "value": [
                             {
                                 "type": "Text",
-                                "start": 26,
-                                "end": 30,
+                                "start": 25,
+                                "end": 31,
                                 "raw": "text"
                             }
                         ]

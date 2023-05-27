@@ -21,15 +21,7 @@ export function createValueState(context) {
 					value.end = context.index + 1;
 				},
 			}),
-			initializeQuotedValue: h.action({
-				run() {
-					value = new PText();
-					value.start = context.index + 1;
-					value.end = context.index + 1;
-					context.stack.push(value);
-				},
-			}),
-			initializeUnquotedValue: h.action({
+			initializeTextValue: h.action({
 				run() {
 					value = new PText();
 					value.start = context.index;
@@ -41,6 +33,7 @@ export function createValueState(context) {
 				const value = context.stack.pop({ expect: ['Text']});
 				const attribute = context.stack.peek({ expect: ['Attribute']});
 				attribute.append(value);
+				value.end = context.index + 1;
 				attribute.end = context.index + 1;
 			}),
 			finalizeUnquotedValue: h.action(() => {
