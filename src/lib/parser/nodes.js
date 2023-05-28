@@ -42,16 +42,77 @@ export class PAttribute {
 }
 
 export class PBlock {
+	/** @type {PBlockStatement[]} */
+	#children = [];
 	#type = /** @type {const} */('Block');
 	end = 0;
-	name = '';
 	start = 0;
+
+	/**
+	 * @param {PBlockStatement} node
+	 */
+	append(node) {
+		switch (node.type) {
+			case 'BlockStatement':
+				this.#children.push(node);
+				break;
+			default:
+				throw Error(`Block nodes do not take '${node}' as a child.`);
+		}
+	}
+	clear() {
+		this.end = 0;
+		this.start = 0;
+		this.#children.length = 0;
+	}
+	/** @returns {import("./types").PBlockJSON} */
+	toJSON() {
+		return {
+			type: this.#type,
+			start: this.start,
+			end: this.end,
+			children: this.#children?.map((child) => child.toJSON()),
+		};
+	}
+	get type() {
+		return this.#type;
+	}
+}
+
+export class PBlockStatement {
+	/** @type {import("./types").PBlockStatementChild[]} */
+	#children = [];
+	#type = /** @type {const} */('BlockStatement');
+	end = 0;
+	name = '';
+	raw = '';
+	start = 0;
+
+	/** @param {import("./types").PBlockStatementChild} node */
+	append(node) {
+		switch (node.type) {
+			case 'Block':
+			case 'Element':
+			case 'Text':
+				this.#children.push(node);
+				break;
+			default:
+				throw Error(`BlockStatement nodes do not take '${node}' as a child.`);
+		}
+	}
+	clear() {
+		this.end = 0;
+		this.start = 0;
+		this.#children.length = 0;
+	}
 	toJSON() {
 		return {
 			type: this.#type,
 			start: this.start,
 			end: this.end,
 			name: this.name,
+			raw: this.raw,
+			children: this.#children?.map((child) => child.toJSON()),
 		};
 	}
 	get type() {
@@ -69,7 +130,7 @@ export class PElement {
 	name = '';
 	start = 0;
 	/**
-	 * @param {PAttribute | PElement | PMustache | PText} node
+	 * @param {PAttribute | PBlock | PElement | PMustache | PText} node
 	 */
 	append(node) {
 		switch (node.type) {
@@ -125,10 +186,11 @@ export class PFragment {
 	end = 0;
 	start = 0;
 	/**
-	 * @param {PElement | PMustache | PText} node
+	 * @param {PBlock | PElement | PMustache | PText} node
 	 */
 	append(node) {
 		switch (node.type) {
+			case 'Block':
 			case 'Element':
 			case 'Mustache':
 			case 'Text': {

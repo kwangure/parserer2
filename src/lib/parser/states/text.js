@@ -30,9 +30,9 @@ export function createTextState(context) {
 						throw Error(`Expected to find Text node on stack. Found '${popped.type}' instead.`);
 					}
 					text.end = context.index;
-					const fragmentOrElement = context.stack.peek({ expect: ['Fragment', 'Element']});
-					fragmentOrElement.append(text);
-					fragmentOrElement.end = context.index;
+					const textParent = context.stack.peek({ expect: ['BlockStatement', 'Fragment', 'Element']});
+					textParent.append(text);
+					textParent.end = context.index;
 				},
 			}),
 			reset: h.action({
@@ -56,6 +56,11 @@ export function createTextState(context) {
 				{
 					transitionTo: 'tag',
 					condition: 'isTagOpen',
+					actions: ['finalizeText'],
+				},
+				{
+					transitionTo: 'mustache',
+					condition: 'isMustacheOpen',
 					actions: ['finalizeText'],
 				},
 				{

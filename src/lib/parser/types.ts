@@ -1,4 +1,4 @@
-import type { PAttribute, PElement, PFragment, PMustache, PShorthand, PText } from './nodes.js';
+import type { PAttribute, PBlock, PBlockStatement, PElement, PFragment, PMustache, PShorthand, PText } from './nodes.js';
 import type { CompoundState } from 'hine';
 import type { PStack } from './stack.js';
 import type { Writable } from 'svelte/store';
@@ -40,6 +40,24 @@ export interface PElementJSON {
     children: ReturnType<PTemplateNode['toJSON']>[];
 };
 
+export interface PBlockJSON {
+    type: "Block";
+    start: number;
+    end: number;
+    children: ReturnType<PBlockStatement['toJSON']>[];
+};
+
+export type PBlockStatementChild = PBlock | PElement | PText;
+
+export interface PBlockStatementJSON {
+    type: "BlockStatement";
+    start: number;
+    end: number;
+	name: string;
+	raw: string;
+    children: ReturnType<PBlockStatementChild['toJSON']>[];
+};
+
 export interface PFragmentJSON {
     type: "Fragment";
     start: number;
@@ -48,6 +66,8 @@ export interface PFragmentJSON {
 };
 
 export type PTemplateNode = PAttribute
+	| PBlock
+	| PBlockStatement
 	| PElement
 	| PFragment
 	| PMustache

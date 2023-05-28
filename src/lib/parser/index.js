@@ -8,6 +8,8 @@ import { h } from 'hine';
 import { PFragment } from './nodes.js';
 import { PStack } from './stack.js';
 
+const ALPHA_CHARACTER_RE = /[A-z]/;
+
 export function createParser() {
 	/** @type {import('./types').ParserContext} */
 	const context = {
@@ -26,10 +28,13 @@ export function createParser() {
 			}),
 		},
 		conditions: {
+			isAlphaCharacter: h.condition((value) => ALPHA_CHARACTER_RE.test(value)),
+			isForwardSlash: h.condition((value) => value === '/'),
 			isMustacheClose: h.condition((value) => value === '}'),
 			isMustacheOpen: h.condition((value) => value === '{'),
 			isTagClose: h.condition((value) => value === '>'),
 			isTagOpen: h.condition((value) => value === '<'),
+			isWhiteSpace: h.condition((value) => value === ' '),
 		},
 		on: {
 			CHARACTER: [{

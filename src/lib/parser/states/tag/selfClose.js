@@ -7,11 +7,11 @@ export function createSelfCloseState(context) {
 	return h.atomic({
 		actions: {
 			finalizeElement: h.action(() => {
-				const current = context.stack.pop({ expect: ['Element']});
-				current.end = context.index + 1;
-				const last = context.stack.peek({ expect: ['Fragment']});
-				last.append(current);
-				last.end = context.index + 1;
+				const element = context.stack.pop({ expect: ['Element']});
+				element.end = context.index + 1;
+				const elementParent = context.stack.peek({ expect: ['BlockStatement', 'Fragment']});
+				elementParent.append(element);
+				elementParent.end = context.index + 1;
 			}),
 		},
 		conditions: {

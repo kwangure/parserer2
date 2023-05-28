@@ -5,6 +5,14 @@ export function createBeforeState() {
 		on: {
 			CHARACTER: [
 				{
+					transitionTo: 'block',
+					condition: 'isHashTag',
+				},
+				{
+					transitionTo: 'block',
+					condition: 'isForwardSlash',
+				},
+				{
 					transitionTo: 'raw',
 				},
 			],

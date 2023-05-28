@@ -1,4 +1,5 @@
 import { createBeforeState } from './before';
+import { createBlockState } from './block/block';
 import { createRawState } from './raw';
 import { h } from 'hine';
 
@@ -13,6 +14,7 @@ export function createMustacheState(context) {
 					return Boolean(this.ownerState?.matches('mustache.done'));
 				},
 			}),
+			isHashTag: h.condition((value) => value === '#'),
 		},
 		on: {
 			CHARACTER: [
@@ -24,6 +26,7 @@ export function createMustacheState(context) {
 		},
 		states: {
 			before: createBeforeState(),
+			block: createBlockState(context),
 			raw: createRawState(context),
 			done: h.atomic(),
 		},
