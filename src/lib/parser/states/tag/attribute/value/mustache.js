@@ -6,15 +6,14 @@ import { PMustache } from '$lib/parser/nodes';
  */
 export function createMustacheState(context) {
 	/** @type {import('$lib/parser/nodes').PMustache} */
-	let value;
+	let mustache;
 	let nestingLevel = 0;
 	return h.atomic({
 		actions: {
 			addChar: h.action({
-				/** @param {string} char */
-				run(char) {
-					value.raw += char;
-					value.end = context.index + 1;
+				run({ value }) {
+					mustache.raw += value;
+					mustache.end = context.index + 1;
 				},
 			}),
 			decrementNesting: h.action(() => {
@@ -25,10 +24,10 @@ export function createMustacheState(context) {
 			}),
 			initializeMustacheValue: h.action({
 				run() {
-					value = new PMustache();
-					value.start = context.index;
-					value.end = context.index + 1;
-					context.stack.push(value);
+					mustache = new PMustache();
+					mustache.start = context.index;
+					mustache.end = context.index + 1;
+					context.stack.push(mustache);
 				},
 			}),
 			finalizeMustacheValue: h.action(() => {
@@ -46,11 +45,7 @@ export function createMustacheState(context) {
 			],
 		}],
 		conditions: {
-			isMustacheDone: h.condition({
-				run() {
-					return nestingLevel === 0;
-				},
-			}),
+			isMustacheDone: h.condition(() => nestingLevel === 0),
 		},
 		on: {
 			CHARACTER: [

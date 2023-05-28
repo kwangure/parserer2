@@ -11,8 +11,7 @@ export function createShorthandState(context) {
 	return h.atomic({
 		actions: {
 			addChar: h.action({
-				/** @param {string} char */
-				run(char) {
+				run({ value: char }) {
 					value.raw += char;
 					value.end = context.index + 1;
 				},
@@ -57,11 +56,7 @@ export function createShorthandState(context) {
 			],
 		}],
 		conditions: {
-			isMustacheDone: h.condition({
-				run() {
-					return nestingLevel === 0;
-				},
-			}),
+			isMustacheDone: h.condition(() => nestingLevel === 0),
 		},
 		on: {
 			CHARACTER: [

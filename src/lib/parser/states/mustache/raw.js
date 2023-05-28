@@ -11,9 +11,8 @@ export function createRawState(context) {
 	return h.atomic({
 		actions: {
 			addChar: h.action({
-				/** @param {string} char */
-				run(char) {
-					mustache.raw += char;
+				run({ value }) {
+					mustache.raw += value;
 					mustache.end = context.index + 1;
 				},
 			}),
@@ -56,11 +55,7 @@ export function createRawState(context) {
 			],
 		}],
 		conditions: {
-			isMustacheDone: h.condition({
-				run() {
-					return nestingLevel === 0;
-				},
-			}),
+			isMustacheDone: h.condition(() => nestingLevel === 0),
 		},
 		on: {
 			CHARACTER: [

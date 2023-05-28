@@ -16,8 +16,7 @@ export function createTagState(context) {
 	return h.compound({
 		actions: {
 			addElementName: h.action({
-				/** @param {string} value */
-				run(value) {
+				run({ value }) {
 					element.name += value;
 					element.end = context.index + 1;
 				},
@@ -33,11 +32,7 @@ export function createTagState(context) {
 			condition: 'isDone',
 		}],
 		conditions: {
-			isDone: h.condition({
-				run() {
-					return Boolean(this.ownerState?.matches('tag.done'));
-				},
-			}),
+			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('tag.done'))),
 		},
 		states: {
 			open: createOpenState(context),

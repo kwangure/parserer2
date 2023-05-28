@@ -10,8 +10,7 @@ export function createTextState(context) {
 	return h.atomic({
 		actions: {
 			addChar: h.action({
-				/** @param {string} value */
-				run(value) {
+				run({ value }) {
 					text.raw += value;
 					text.end = context.index + 1;
 				},

@@ -11,22 +11,21 @@ import { PText } from '$lib/parser/nodes';
  */
 export function createValueState(context) {
 	/** @type {import('$lib/parser/nodes').PText} */
-	let value;
+	let text;
 	return h.compound({
 		actions: {
 			addChar: h.action({
-				/** @param {string} char */
-				run(char) {
-					value.raw += char;
-					value.end = context.index + 1;
+				run({ value }) {
+					text.raw += value;
+					text.end = context.index + 1;
 				},
 			}),
 			initializeTextValue: h.action({
 				run() {
-					value = new PText();
-					value.start = context.index;
-					value.end = context.index + 1;
-					context.stack.push(value);
+					text = new PText();
+					text.start = context.index;
+					text.end = context.index + 1;
+					context.stack.push(text);
 				},
 			}),
 			finalizeQuotedValue: h.action(() => {
@@ -44,29 +43,22 @@ export function createValueState(context) {
 			}),
 			reset: h.action({
 				run() {
-					value.clear();
+					text.clear();
 					// We know it's not undefined in all other places since `initialize`
 					// runs first. Set to `undefined` so that GC can cleanup.
 					// @ts-expect-error
-					value = undefined;
+					text = undefined;
 				},
 			}),
 		},
 		conditions: {
-			isDone: h.condition({
-				run() {
-					return Boolean(this.ownerState?.matches('value.done'));
-				},
-			}),
+			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('value.done'))),
 		},
 		on: {
-			CHARACTER: [
-				{
-					// attribute.before
-					transitionTo: 'before',
-					condition: 'isDone',
-				},
-			],
+			CHARACTER: [{
+				transitionTo: 'before',
+				condition: 'isDone',
+			}],
 		},
 		states: {
 			before: createBeforeState(),

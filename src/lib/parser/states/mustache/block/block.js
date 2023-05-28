@@ -15,8 +15,7 @@ export function createBlockState(context) {
 	return h.compound({
 		actions: {
 			addBlockStatementName: h.action({
-				/** @param {string} value */
-				run(value) {
+				run({ value }) {
 					blockStatement.name += value;
 					blockStatement.end = context.index + 1;
 				},
@@ -65,11 +64,7 @@ export function createBlockState(context) {
 			}),
 		},
 		conditions: {
-			isDone: h.condition({
-				run() {
-					return Boolean(this.ownerState?.matches('block.done'));
-				},
-			}),
+			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('block.done'))),
 		},
 		entry: [{
 			actions: ['initializeBlock'],

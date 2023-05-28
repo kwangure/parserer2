@@ -9,12 +9,8 @@ import { h } from 'hine';
 export function createMustacheState(context) {
 	return h.compound({
 		conditions: {
-			isDone: h.condition({
-				run() {
-					return Boolean(this.ownerState?.matches('mustache.done'));
-				},
-			}),
-			isHashTag: h.condition((value) => value === '#'),
+			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('mustache.done'))),
+			isHashTag: h.condition(({ value }) => value === '#'),
 		},
 		on: {
 			CHARACTER: [

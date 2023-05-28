@@ -14,12 +14,6 @@ export function createSelfCloseState(context) {
 				elementParent.end = context.index + 1;
 			}),
 		},
-		conditions: {
-			isTagClose: h.condition({
-				/** @param {string} value */
-				run: (value) => value === '>',
-			}),
-		},
 		on: {
 			CHARACTER: [
 				{

@@ -15,8 +15,7 @@ export function createAttributeState(context) {
 	return h.compound({
 		actions: {
 			addAttributeName: h.action({
-				/** @param {string} value */
-				run(value) {
+				run({ value }) {
 					attribute.name += value;
 					attribute.end = context.index + 1;
 				},
@@ -47,9 +46,9 @@ export function createAttributeState(context) {
 			}),
 		},
 		conditions: {
-			isDoubleQuote: h.condition((value) => value === '"'),
-			isEquals: h.condition((value) => value === '='),
-			isSingleQuote: h.condition((value) => value === '\''),
+			isDoubleQuote: h.condition(({ value }) => value === '"'),
+			isEquals: h.condition(({ value }) => value === '='),
+			isSingleQuote: h.condition(({ value }) => value === '\''),
 		},
 		on: {
 			CHARACTER: [

@@ -9,8 +9,8 @@ export function createRawState(context) {
 	let nestingLevel = 0;
 	return h.atomic({
 		actions: {
-			addChar: h.action((char) => {
-				blockStatement.raw += char;
+			addChar: h.action(({ value }) => {
+				blockStatement.raw += value;
 				blockStatement.end = context.index + 1;
 			}),
 			decrementNesting: h.action(() => nestingLevel -= 1),

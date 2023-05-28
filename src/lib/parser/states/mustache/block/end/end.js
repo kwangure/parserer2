@@ -24,11 +24,7 @@ export function createEndState(context) {
 			}),
 		},
 		conditions: {
-			isDone: h.condition({
-				run() {
-					return Boolean(this.ownerState?.matches('end.done'));
-				},
-			}),
+			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('end.done'))),
 		},
 		entry: [{
 			actions: ['initializeBlockStatement'],

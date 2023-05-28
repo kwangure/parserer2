@@ -28,13 +28,13 @@ export function createParser() {
 			}),
 		},
 		conditions: {
-			isAlphaCharacter: h.condition((value) => ALPHA_CHARACTER_RE.test(value)),
-			isForwardSlash: h.condition((value) => value === '/'),
-			isMustacheClose: h.condition((value) => value === '}'),
-			isMustacheOpen: h.condition((value) => value === '{'),
-			isTagClose: h.condition((value) => value === '>'),
-			isTagOpen: h.condition((value) => value === '<'),
-			isWhiteSpace: h.condition((value) => value === ' '),
+			isAlphaCharacter: h.condition(({ value }) => ALPHA_CHARACTER_RE.test(value)),
+			isForwardSlash: h.condition(({ value }) => value === '/'),
+			isMustacheClose: h.condition(({ value }) => value === '}'),
+			isMustacheOpen: h.condition(({ value }) => value === '{'),
+			isTagClose: h.condition(({ value }) => value === '>'),
+			isTagOpen: h.condition(({ value }) => value === '<'),
+			isWhiteSpace: h.condition(({ value }) => value === ' '),
 		},
 		on: {
 			CHARACTER: [{
