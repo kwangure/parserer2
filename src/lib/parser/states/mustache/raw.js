@@ -32,7 +32,7 @@ export function createRawState(context) {
 			}),
 			finalizeMustacheValue: h.action(() => {
 				const value = context.stack.pop({ expect: ['Mustache']});
-				const elementOrFragment = context.stack.peek({ expect: ['Element', 'Fragment']});
+				const elementOrFragment = context.stack.peek({ expect: ['BlockStatement', 'Element', 'Fragment']});
 				elementOrFragment.append(value);
 				value.end = context.index + 1;
 				elementOrFragment.end = context.index + 1;

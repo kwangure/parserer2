@@ -92,6 +92,7 @@ export class PBlockStatement {
 	append(node) {
 		switch (node.type) {
 			case 'Block':
+			case 'Mustache':
 			case 'Element':
 			case 'Text':
 				this.#children.push(node);

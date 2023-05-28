@@ -47,7 +47,7 @@ export interface PBlockJSON {
     children: ReturnType<PBlockStatement['toJSON']>[];
 };
 
-export type PBlockStatementChild = PBlock | PElement | PText;
+export type PBlockStatementChild = PBlock | PElement | PMustache | PText;
 
 export interface PBlockStatementJSON {
     type: "BlockStatement";

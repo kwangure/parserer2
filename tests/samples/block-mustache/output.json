@@ -1,0 +1,43 @@
+{
+    "html": {
+        "type": "Fragment",
+        "start": 0,
+        "end": 28,
+        "children": [
+            {
+                "type": "Block",
+                "start": 0,
+                "end": 28,
+                "children": [
+                    {
+                        "type": "BlockStatement",
+                        "start": 0,
+                        "end": 28,
+                        "name": "if",
+                        "raw": "true",
+                        "children": [
+                            {
+                                "type": "Text",
+                                "start": 10,
+                                "end": 12,
+                                "raw": "\n\t"
+                            },
+                            {
+                                "type": "Mustache",
+                                "start": 12,
+                                "end": 22,
+                                "raw": "location"
+                            },
+                            {
+                                "type": "Text",
+                                "start": 22,
+                                "end": 23,
+                                "raw": "\n"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
