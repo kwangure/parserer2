@@ -17,7 +17,7 @@ export function createEndState(context) {
 					throw Error(`Expected closing tag name '${closingTag.name}' to match opening tag name '${openingTag.name}'`);
 				}
 
-				const fragmentOrElement = context.stack.peek({ expect: ['Fragment', 'Element']});
+				const fragmentOrElement = context.stack.peek({ expect: ['BlockStatement', 'Fragment', 'Element']});
 				fragmentOrElement.append(openingTag);
 				fragmentOrElement.end = context.index + 1;
 			}),
