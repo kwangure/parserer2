@@ -32,6 +32,9 @@ export function createNameState() {
 					actions: ['addAttributeName'],
 				},
 			],
+			RESET: [{
+				actions: ['resetAttribute'],
+			}],
 		},
 	});
 }

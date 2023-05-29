@@ -61,9 +61,6 @@ export function createAttributeState(context) {
 					condition: 'isTagClose',
 				},
 			],
-			RESET: [{
-				actions: ['resetAttribute'],
-			}],
 		},
 		states: {
 			before: createBeforeState(),

@@ -38,7 +38,7 @@ export function createShorthandState(context) {
 				attribute.name = value.raw;
 				attribute.end = context.index + 1;
 			}),
-			reset: h.action({
+			resetValue: h.action({
 				run() {
 					value.clear();
 					// We know it's not undefined in all other places since `initialize`
@@ -81,7 +81,10 @@ export function createShorthandState(context) {
 				},
 			],
 			RESET: [{
-				actions: ['reset'],
+				actions: [
+					'resetValue',
+					'resetAttribute',
+				],
 			}],
 		},
 	});
