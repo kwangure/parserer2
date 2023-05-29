@@ -8,12 +8,12 @@ describe('parse', () => {
 	for (const dir of samples) {
 		if (dir[0] === '.') return;
 
-		// add .solo to a sample directory name to only run that test
-		const solo = (/\.solo$/).test(dir);
+		// add .only to a sample directory name to only run that test
+		const only = (/\.only$/).test(dir);
 
-		if (solo && process.env.CI) {
+		if (only && process.env.CI) {
 			throw new Error(
-				`Forgot to remove '.solo' from test test/samples/${dir}`,
+				`Forgot to remove '.only' from test test/samples/${dir}`,
 			);
 		}
 
@@ -33,7 +33,7 @@ describe('parse', () => {
 		let runner = test;
 		if (skip) {
 			runner = test.skip;
-		} else if (solo) {
+		} else if (only) {
 			runner = test.only;
 		}
 
