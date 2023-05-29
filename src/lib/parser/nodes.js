@@ -42,9 +42,9 @@ export class PAttribute {
 }
 
 export class PBlock {
-	/** @type {PBlockStatement[]} */
-	#children = [];
 	#type = /** @type {const} */('Block');
+	/** @type {PBlockStatement[]} */
+	children = [];
 	end = 0;
 	start = 0;
 
@@ -54,7 +54,7 @@ export class PBlock {
 	append(node) {
 		switch (node.type) {
 			case 'BlockStatement':
-				this.#children.push(node);
+				this.children.push(node);
 				break;
 			default:
 				throw Error(`Block nodes do not take '${node}' as a child.`);
@@ -63,7 +63,7 @@ export class PBlock {
 	clear() {
 		this.end = 0;
 		this.start = 0;
-		this.#children.length = 0;
+		this.children.length = 0;
 	}
 	/** @returns {import("./types").PBlockJSON} */
 	toJSON() {
@@ -71,7 +71,7 @@ export class PBlock {
 			type: this.#type,
 			start: this.start,
 			end: this.end,
-			children: this.#children?.map((child) => child.toJSON()),
+			children: this.children?.map((child) => child.toJSON()),
 		};
 	}
 	get type() {

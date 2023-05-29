@@ -50,6 +50,7 @@ export function createRawState(context) {
 				{
 					transitionTo: 'done',
 					condition: 'isMustacheDone',
+					actions: ['addBlockStatementEnd'],
 				},
 				{
 					actions: ['addChar'],

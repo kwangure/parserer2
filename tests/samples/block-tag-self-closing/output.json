@@ -12,7 +12,7 @@
                     {
                         "type": "BlockStatement",
                         "start": 0,
-                        "end": 26,
+                        "end": 21,
                         "name": "if",
                         "raw": "window",
                         "children": [
@@ -37,6 +37,14 @@
                                 "raw": "\n"
                             }
                         ]
+                    },
+                    {
+                        "type": "BlockStatement",
+                        "start": 22,
+                        "end": 26,
+                        "name": "if",
+                        "raw": "",
+                        "children": []
                     }
                 ]
             }

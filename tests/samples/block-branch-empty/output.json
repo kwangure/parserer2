@@ -2,12 +2,12 @@
     "html": {
         "type": "Fragment",
         "start": 0,
-        "end": 17,
+        "end": 24,
         "children": [
             {
                 "type": "Block",
                 "start": 0,
-                "end": 17,
+                "end": 24,
                 "children": [
                     {
                         "type": "BlockStatement",
@@ -20,7 +20,15 @@
                     {
                         "type": "BlockStatement",
                         "start": 13,
-                        "end": 17,
+                        "end": 19,
+                        "name": "else",
+                        "raw": "",
+                        "children": []
+                    },
+                    {
+                        "type": "BlockStatement",
+                        "start": 20,
+                        "end": 24,
                         "name": "if",
                         "raw": "",
                         "children": []

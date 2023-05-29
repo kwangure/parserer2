@@ -3,7 +3,10 @@ import { h } from 'hine';
 export function createNameState() {
 	return h.atomic({
 		entry: [{
-			actions: ['initializeBlockStatement'],
+			actions: [
+				'initializeBlock',
+				'initializeBlockStatement',
+			],
 		}],
 		on: {
 			CHARACTER: [

@@ -9,6 +9,7 @@ import { h } from 'hine';
 export function createMustacheState(context) {
 	return h.compound({
 		conditions: {
+			isColon: h.condition(({ value }) => value === ':'),
 			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('mustache.done'))),
 			isHashTag: h.condition(({ value }) => value === '#'),
 		},
@@ -21,7 +22,7 @@ export function createMustacheState(context) {
 			],
 		},
 		states: {
-			before: createBeforeState(),
+			before: createBeforeState(context),
 			block: createBlockState(context),
 			raw: createRawState(context),
 			done: h.atomic(),

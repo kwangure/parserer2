@@ -1,4 +1,5 @@
 import { PBlock, PBlockStatement } from '$lib/parser/nodes';
+import { createBranchState } from './branch/branch.js';
 import { createEndState } from './end/end.js';
 import { createNameState } from './name.js';
 import { createRawState } from './raw.js';
@@ -20,6 +21,7 @@ export function createBlockState(context) {
 					blockStatement.end = context.index + 1;
 				},
 			}),
+			addBlockStatementEnd: h.action(() => blockStatement.end = context.index + 1),
 			initializeBlock: h.action({
 				run() {
 					block = new PBlock();
@@ -66,9 +68,6 @@ export function createBlockState(context) {
 		conditions: {
 			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('block.done'))),
 		},
-		entry: [{
-			actions: ['initializeBlock'],
-		}],
 		on: {
 			CHARACTER: [{
 				transitionTo: 'done',
@@ -87,10 +86,14 @@ export function createBlockState(context) {
 					transitionTo: 'name',
 					condition: 'isHashTag',
 				}, {
+					transitionTo: 'branch',
+					condition: 'isColon',
+				}, {
 					transitionTo: 'end',
 					condition: 'isForwardSlash',
 				}],
 			}),
+			branch: createBranchState(context),
 			name: createNameState(),
 			end: createEndState(context),
 			raw: createRawState(context),

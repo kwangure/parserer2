@@ -42,6 +42,9 @@
 <div class="">
 	Active Path: {activePath($parser)}
 </div>
+<div class="">
+	Index: {$parser.context.index}
+</div>
 <div class="grid grid-cols-2 gap-2">
 	<Player code={data.sample.content} next={data.next} previous={data.previous}
 		{parser}/>
