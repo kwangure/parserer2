@@ -6,7 +6,6 @@ import { tryToLoadJson } from './helpers.js';
 describe('parse', () => {
 	const samples = fs.readdirSync(`${__dirname}/samples`);
 	for (const dir of samples) {
-		if (dir[0] === '.') return;
 
 		// add .only to a sample directory name to only run that test
 		const only = (/\.only$/).test(dir);
