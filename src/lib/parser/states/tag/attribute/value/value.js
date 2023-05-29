@@ -41,7 +41,7 @@ export function createValueState(context) {
 				attribute.append(value);
 				attribute.end = context.index;
 			}),
-			reset: h.action({
+			resetText: h.action({
 				run() {
 					text.clear();
 					// We know it's not undefined in all other places since `initialize`

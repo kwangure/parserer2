@@ -37,6 +37,15 @@ export function createMustacheState(context) {
 				value.end = context.index + 1;
 				attribute.end = context.index + 1;
 			}),
+			resetMustache: h.action({
+				run() {
+					mustache.clear();
+					// We know it's not undefined in all other places since `initialize`
+					// runs first. Set to `undefined` so that GC can cleanup.
+					// @ts-expect-error
+					mustache = undefined;
+				},
+			}),
 		},
 		entry: [{
 			actions: [
@@ -70,7 +79,7 @@ export function createMustacheState(context) {
 				},
 			],
 			RESET: [{
-				actions: ['reset'],
+				actions: ['resetMustache'],
 			}],
 		},
 	});

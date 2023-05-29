@@ -20,7 +20,7 @@ export function createDoubleQuotedState() {
 				},
 			],
 			RESET: [{
-				actions: ['reset'],
+				actions: ['resetText'],
 			}],
 		},
 	});

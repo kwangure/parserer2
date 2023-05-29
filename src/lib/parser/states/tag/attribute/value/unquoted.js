@@ -31,7 +31,7 @@ export function createUnquotedState() {
 				},
 			],
 			RESET: [{
-				actions: ['reset'],
+				actions: ['resetText'],
 			}],
 		},
 	});
