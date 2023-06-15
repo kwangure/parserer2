@@ -1,6 +1,6 @@
 {
-	"name": "parserer2",
-	"version": "0.0.0",
+	"name": "parserer",
+	"version": "0.0.1",
 	"description": "A Svelte parser",
 	"scripts": {
 		"build": "wireit",
@@ -133,6 +133,7 @@
 		}
 	},
 	"dependencies": {
+		"@changesets/cli": "^2.26.1",
 		"@kwangure/strawberry": "^0.60.2",
 		"hine": "^0.0.11"
 	}
