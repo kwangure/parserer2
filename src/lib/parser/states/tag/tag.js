@@ -1,19 +1,45 @@
-import { createAttributeState } from './attribute/attribute.js';
-import { createEndState } from './end/end.js';
-import { createNameState } from './name.js';
-import { createOpenState } from './open.js';
-import { createSelfCloseState } from './selfClose.js';
+import { createAttributeMonitor, createAttributeState } from './attribute/attribute.js';
+import { createEndMonitor, createEndState } from './end/end.js';
+import { createNameMonitor, createNameState } from './name.js';
+import { createOpenMonitor, createOpenState } from './open.js';
+import { createSelfCloseMonitor, createSelfCloseState } from './selfClose.js';
 import { h } from 'hine';
 
 /**
  * @param {import('$lib/parser/types').ParserContext} context
  */
 export function createTagState(context) {
-	/**
-	 * @type {import('$lib/parser/nodes').PElement}
-	 */
-	let element;
 	return h.compound({
+		always: [{
+			transitionTo: 'fragment',
+			condition: 'isDone',
+		}],
+		conditions: {
+			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('tag.done'))),
+		},
+		states: {
+			open: createOpenState(),
+			attribute: createAttributeState(context),
+			end: createEndState(),
+			name: createNameState(),
+			selfClose: createSelfCloseState(),
+			done: h.atomic(),
+		},
+		on: {
+			RESET: [{
+				transitionTo: 'start',
+			}],
+		},
+	});
+}
+
+/**
+ * @param {import('$lib/parser/types').ParserContext} context
+ */
+export function createTagMonitor(context) {
+	/** @type {import('$lib/parser/nodes').PElement} */
+	let element;
+	return {
 		actions: {
 			addElementName: h.action({
 				run({ value }) {
@@ -27,25 +53,12 @@ export function createTagState(context) {
 				},
 			}),
 		},
-		always: [{
-			transitionTo: 'fragment',
-			condition: 'isDone',
-		}],
-		conditions: {
-			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('tag.done'))),
-		},
 		states: {
-			open: createOpenState(context),
-			attribute: createAttributeState(context),
-			end: createEndState(context),
-			name: createNameState(),
-			selfClose: createSelfCloseState(context),
-			done: h.atomic(),
+			attribute: createAttributeMonitor(context),
+			end: createEndMonitor(context),
+			name: createNameMonitor(),
+			open: createOpenMonitor(context),
+			selfClose: createSelfCloseMonitor(context),
 		},
-		on: {
-			RESET: [{
-				transitionTo: 'start',
-			}],
-		},
-	});
+	};
 }

@@ -1,22 +1,9 @@
+import { createNameMonitor, createNameState } from './name.js';
 import { createBeforeState } from './before.js';
-import { createNameState } from './name.js';
 import { h } from 'hine';
 
-/**
- * @param {import('$lib/parser/types').ParserContext} context
- */
-export function createBranchState(context) {
+export function createBranchState() {
 	return h.compound({
-		actions: {
-			finalizeBlockStatement: h.action(() => {
-				const closingTag = context.stack.pop({ expect: ['BlockStatement']});
-				const parentBlock = context.stack.peek({ expect: ['Block']});
-				parentBlock.append(closingTag);
-
-				parentBlock.end = context.index + 1;
-				closingTag.end = context.index + 1;
-			}),
-		},
 		conditions: {
 			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('branch.done'))),
 		},
@@ -32,4 +19,25 @@ export function createBranchState(context) {
 			done: h.atomic(),
 		},
 	});
+}
+
+/**
+ * @param {import('$lib/parser/types').ParserContext} context
+ */
+export function createBranchMonitor(context) {
+	return {
+		actions: {
+			finalizeBlockStatement: h.action(() => {
+				const closingTag = context.stack.pop({ expect: ['BlockStatement']});
+				const parentBlock = context.stack.peek({ expect: ['Block']});
+				parentBlock.append(closingTag);
+
+				parentBlock.end = context.index + 1;
+				closingTag.end = context.index + 1;
+			}),
+		},
+		states: {
+			name: createNameMonitor(),
+		},
+	};
 }

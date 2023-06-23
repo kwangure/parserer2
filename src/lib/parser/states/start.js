@@ -1,10 +1,20 @@
 import { h } from 'hine';
 
+export function createStartState() {
+	return h.atomic({
+		on: {
+			INIT: [{
+				transitionTo: 'fragment',
+			}],
+		},
+	});
+}
+
 /**
  * @param {import('$lib/parser/types').ParserContext} context
  */
-export function createStartState(context) {
-	return h.atomic({
+export function createStartMonitor(context) {
+	return {
 		actions: {
 			initialize: h.action({
 				run() {
@@ -18,10 +28,5 @@ export function createStartState(context) {
 		entry: [{
 			actions: ['initialize'],
 		}],
-		on: {
-			INIT: [{
-				transitionTo: 'fragment',
-			}],
-		},
-	});
+	};
 }

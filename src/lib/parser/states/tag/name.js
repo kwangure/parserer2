@@ -2,12 +2,6 @@ import { h } from 'hine';
 
 export function createNameState() {
 	return h.atomic({
-		entry: [{
-			actions: [
-				'initializeElement',
-				'addElementName',
-			],
-		}],
 		on: {
 			CHARACTER: [
 				{
@@ -28,4 +22,14 @@ export function createNameState() {
 			],
 		},
 	});
+}
+
+export function createNameMonitor() {
+	return {
+		entry: [
+			{
+				actions: ['initializeElement', 'addElementName'],
+			},
+		],
+	};
 }

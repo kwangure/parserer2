@@ -1,26 +1,9 @@
+import { createNameMonitor, createNameState } from './name.js';
 import { createBeforeState } from './before.js';
-import { createNameState } from './name.js';
 import { h } from 'hine';
 
-/**
- * @param {import('$lib/parser/types').ParserContext} context
- */
-export function createEndState(context) {
+export function createEndState() {
 	return h.compound({
-		actions: {
-			finalizeBlockStatement: h.action(() => {
-				const closingTag = context.stack.pop({ expect: ['BlockStatement']});
-				const parentBlock = context.stack.peek({ expect: ['Block']});
-				const openingTag = parentBlock.children[0];
-
-				if (closingTag.name !== openingTag.name) {
-					throw Error(`Expected closing tag name '${closingTag.name}' to match opening tag name '${openingTag.name}'`);
-				}
-
-				parentBlock.append(closingTag);
-				parentBlock.end = context.index + 1;
-			}),
-		},
 		conditions: {
 			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('end.done'))),
 		},
@@ -40,4 +23,29 @@ export function createEndState(context) {
 			done: h.atomic(),
 		},
 	});
+}
+
+/**
+ * @param {import('$lib/parser/types').ParserContext} context
+ */
+export function createEndMonitor(context) {
+	return {
+		actions: {
+			finalizeBlockStatement: h.action(() => {
+				const closingTag = context.stack.pop({ expect: ['BlockStatement']});
+				const parentBlock = context.stack.peek({ expect: ['Block']});
+				const openingTag = parentBlock.children[0];
+
+				if (closingTag.name !== openingTag.name) {
+					throw Error(`Expected closing tag name '${closingTag.name}' to match opening tag name '${openingTag.name}'`);
+				}
+
+				parentBlock.append(closingTag);
+				parentBlock.end = context.index + 1;
+			}),
+		},
+		states: {
+			name: createNameMonitor(),
+		},
+	};
 }

@@ -1,8 +1,8 @@
+import { createNameMonitor, createNameState } from './name/name.js';
+import { createShortHandMonitor, createShorthandState } from './shorthand.js';
+import { createValueMonitor, createValueState } from './value/value.js';
 import { createBeforeState } from './name/before.js';
 import { createEqualsState } from './equals.js';
-import { createNameState } from './name/name.js';
-import { createShorthandState } from './shorthand.js';
-import { createValueState } from './value/value.js';
 import { h } from 'hine';
 import { PAttribute } from '$lib/parser/nodes';
 
@@ -10,9 +10,42 @@ import { PAttribute } from '$lib/parser/nodes';
  * @param {import('$lib/parser/types').ParserContext} context
  */
 export function createAttributeState(context) {
+	return h.compound({
+		conditions: {
+			isDoubleQuote: h.condition(({ value }) => value === '"'),
+			isEquals: h.condition(({ value }) => value === '='),
+			isSingleQuote: h.condition(({ value }) => value === '\''),
+		},
+		on: {
+			CHARACTER: [
+				{
+					transitionTo: 'selfClose',
+					condition: 'isForwardSlash',
+				},
+				{
+					transitionTo: 'done',
+					condition: 'isTagClose',
+				},
+			],
+		},
+		states: {
+			before: createBeforeState(),
+			name: createNameState(),
+			equals: createEqualsState(),
+			shorthand: createShorthandState(context),
+			value: createValueState(context),
+			done: h.atomic(),
+		},
+	});
+}
+
+/**
+ * @param {import('$lib/parser/types').ParserContext} context
+ */
+export function createAttributeMonitor(context) {
 	/** @type {PAttribute} */
 	let attribute;
-	return h.compound({
+	return {
 		actions: {
 			addAttributeName: h.action({
 				run({ value }) {
@@ -45,30 +78,10 @@ export function createAttributeState(context) {
 				},
 			}),
 		},
-		conditions: {
-			isDoubleQuote: h.condition(({ value }) => value === '"'),
-			isEquals: h.condition(({ value }) => value === '='),
-			isSingleQuote: h.condition(({ value }) => value === '\''),
-		},
-		on: {
-			CHARACTER: [
-				{
-					transitionTo: 'selfClose',
-					condition: 'isForwardSlash',
-				},
-				{
-					transitionTo: 'done',
-					condition: 'isTagClose',
-				},
-			],
-		},
 		states: {
-			before: createBeforeState(),
-			name: createNameState(),
-			equals: createEqualsState(),
-			shorthand: createShorthandState(context),
-			value: createValueState(context),
-			done: h.atomic(),
+			name: createNameMonitor(),
+			shorthand: createShortHandMonitor(context),
+			value: createValueMonitor(context),
 		},
-	});
+	};
 }

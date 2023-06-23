@@ -2,9 +2,6 @@ import { h } from 'hine';
 
 export function createDoubleQuotedState() {
 	return h.atomic({
-		entry: [{
-			actions: ['initializeTextValue'],
-		}],
 		on: {
 			CHARACTER: [
 				{
@@ -24,4 +21,14 @@ export function createDoubleQuotedState() {
 			}],
 		},
 	});
+}
+
+export function createDoubleQuotedMonitor() {
+	return {
+		entry: [
+			{
+				actions: ['initializeTextValue'],
+			},
+		],
+	};
 }

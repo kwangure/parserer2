@@ -1,9 +1,9 @@
+import { createMustacheMonitor, createMustacheState } from './states/mustache/mustache.js';
+import { createStartMonitor, createStartState } from './states/start.js';
+import { createTagMonitor, createTagState } from './states/tag/tag.js';
+import { createTextMonitor, createTextState } from './states/text.js';
 import { createEOFState } from './states/eof.js';
 import { createFragmentState } from './states/fragment.js';
-import { createMustacheState } from './states/mustache/mustache.js';
-import { createStartState } from './states/start.js';
-import { createTagState } from './states/tag/tag.js';
-import { createTextState } from './states/text.js';
 import { h } from 'hine';
 import { PFragment } from './nodes.js';
 import { PStack } from './stack.js';
@@ -15,18 +15,12 @@ export function createParser() {
 	const context = {
 		index: 0,
 		html: new PFragment(),
+		nestingLevel: 0,
 		stack: new PStack(),
 	};
 
 	const parser = h.compound({
 		name: 'parser',
-		actions: {
-			increment: h.action({
-				run() {
-					context.index += 1;
-				},
-			}),
-		},
 		conditions: {
 			isAlphaCharacter: h.condition(({ value }) => ALPHA_CHARACTER_RE.test(value)),
 			isForwardSlash: h.condition(({ value }) => value === '/'),
@@ -42,15 +36,28 @@ export function createParser() {
 			}],
 		},
 		states: {
-			start: createStartState(context),
+			start: createStartState(),
 			eof: createEOFState(),
 			fragment: createFragmentState(),
 			mustache: createMustacheState(context),
 			tag: createTagState(context),
-			text: createTextState(context),
+			text: createTextState(),
 		},
-	}).start();
+	});
 
+	parser.monitor({
+		actions: {
+			increment: h.action(() => (context.index += 1)),
+		},
+		states: {
+			mustache: createMustacheMonitor(context),
+			start: createStartMonitor(context),
+			tag: createTagMonitor(context),
+			text: createTextMonitor(context),
+		},
+	});
+
+	parser.start();
 
 	return /** @type {import('./types').WritableParserWithContext} */(
 		Object.assign(parser, { context })

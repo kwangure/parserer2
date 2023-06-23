@@ -2,12 +2,6 @@ import { h } from 'hine';
 
 export function createUnquotedState() {
 	return h.atomic({
-		entry: [{
-			actions: [
-				'initializeTextValue',
-				'addChar',
-			],
-		}],
 		on: {
 			CHARACTER: [
 				{
@@ -35,4 +29,14 @@ export function createUnquotedState() {
 			}],
 		},
 	});
+}
+
+export function createUnquotedMonitor() {
+	return {
+		entry: [
+			{
+				actions: ['initializeTextValue', 'addChar'],
+			},
+		],
+	};
 }

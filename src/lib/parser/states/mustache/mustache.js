@@ -1,6 +1,6 @@
-import { createBeforeState } from './before';
-import { createBlockState } from './block/block';
-import { createRawState } from './raw';
+import { createBeforeMonitor, createBeforeState } from './before.js';
+import { createBlockMonitor, createBlockState } from './block/block.js';
+import { createRawMonitor, createRawState } from './raw.js';
 import { h } from 'hine';
 
 /**
@@ -22,10 +22,23 @@ export function createMustacheState(context) {
 			],
 		},
 		states: {
-			before: createBeforeState(context),
+			before: createBeforeState(),
 			block: createBlockState(context),
 			raw: createRawState(context),
 			done: h.atomic(),
 		},
 	});
+}
+
+/**
+ * @param {import('$lib/parser/types').ParserContext} context
+ */
+export function createMustacheMonitor(context) {
+	return {
+		states: {
+			before: createBeforeMonitor(context),
+			block: createBlockMonitor(context),
+			raw: createRawMonitor(context),
+		},
+	};
 }

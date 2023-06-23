@@ -1,8 +1,8 @@
+import { createDoubleQuotedMonitor, createDoubleQuotedState } from './double_quoted.js';
+import { createMustacheMonitor, createMustacheState } from './mustache.js';
+import { createSingleQuotedMonitor, createSingleQuotedState } from './single_quoted.js';
+import { createUnquotedMonitor, createUnquotedState } from './unquoted.js';
 import { createBeforeState } from './before.js';
-import { createDoubleQuotedState } from './double_quoted.js';
-import { createMustacheState } from './mustache.js';
-import { createSingleQuotedState } from './single_quoted.js';
-import { createUnquotedState } from './unquoted.js';
 import { h } from 'hine';
 import { PText } from '$lib/parser/nodes';
 
@@ -10,9 +10,34 @@ import { PText } from '$lib/parser/nodes';
  * @param {import('$lib/parser/types').ParserContext} context
  */
 export function createValueState(context) {
+	return h.compound({
+		conditions: {
+			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('value.done'))),
+		},
+		on: {
+			CHARACTER: [{
+				transitionTo: 'before',
+				condition: 'isDone',
+			}],
+		},
+		states: {
+			before: createBeforeState(),
+			doubleQuoted: createDoubleQuotedState(),
+			mustache: createMustacheState(context),
+			singleQuoted: createSingleQuotedState(),
+			unquoted: createUnquotedState(),
+			done: h.atomic(),
+		},
+	});
+}
+
+/**
+ * @param {import('$lib/parser/types').ParserContext} context
+ */
+export function createValueMonitor(context) {
 	/** @type {import('$lib/parser/nodes').PText} */
 	let text;
-	return h.compound({
+	return {
 		actions: {
 			addChar: h.action({
 				run({ value }) {
@@ -51,22 +76,11 @@ export function createValueState(context) {
 				},
 			}),
 		},
-		conditions: {
-			isDone: h.condition(({ ownerState }) => Boolean(ownerState?.matches('value.done'))),
-		},
-		on: {
-			CHARACTER: [{
-				transitionTo: 'before',
-				condition: 'isDone',
-			}],
-		},
 		states: {
-			before: createBeforeState(),
-			doubleQuoted: createDoubleQuotedState(),
-			mustache: createMustacheState(context),
-			singleQuoted: createSingleQuotedState(),
-			unquoted: createUnquotedState(),
-			done: h.atomic(),
+			doubleQuoted: createDoubleQuotedMonitor(),
+			mustache: createMustacheMonitor(context),
+			singleQuoted: createSingleQuotedMonitor(),
+			unquoted: createUnquotedMonitor(),
 		},
-	});
+	};
 }

@@ -5,7 +5,8 @@ import type { Writable } from 'svelte/store';
 
 export interface ParserContext {
 	index: number;
-	html: PFragment;
+    html: PFragment;
+    nestingLevel: number;
 	stack: PStack;
 }
 

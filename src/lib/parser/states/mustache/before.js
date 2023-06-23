@@ -1,18 +1,7 @@
 import { h } from 'hine';
 
-/**
- * @param {import('$lib/parser/types').ParserContext} context
- */
-export function createBeforeState(context) {
+export function createBeforeState() {
 	return h.atomic({
-		actions: {
-			finalizeBlockStatement: h.action(() => {
-				const blockStatement = context.stack.pop({ expect: ['BlockStatement']});
-				const block = context.stack.peek({ expect: ['Block']});
-				block.append(blockStatement);
-				block.end = context.index + 1;
-			}),
-		},
 		on: {
 			CHARACTER: [
 				{
@@ -35,4 +24,20 @@ export function createBeforeState(context) {
 			],
 		},
 	});
+}
+
+/**
+ * @param {import('$lib/parser/types').ParserContext} context
+ */
+export function createBeforeMonitor(context) {
+	return {
+		actions: {
+			finalizeBlockStatement: h.action(() => {
+				const blockStatement = context.stack.pop({ expect: ['BlockStatement']});
+				const block = context.stack.peek({ expect: ['Block']});
+				block.append(blockStatement);
+				block.end = context.index + 1;
+			}),
+		},
+	};
 }
