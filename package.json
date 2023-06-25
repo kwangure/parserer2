@@ -8,6 +8,7 @@
 		"dev": "vite dev",
 		"format": "wireit",
 		"lint": "wireit",
+		"pack": "wireit",
 		"pre-commit": "wireit",
 		"preview": "vite preview",
 		"prepare": "husky install",
@@ -17,8 +18,15 @@
 	"files": [
 		"dist",
 		"!dist/**/*.test.*",
-		"!dist/**/*.spec.*"
+		"!dist/**/*.spec.*",
+		"!dist/components"
 	],
+	"exports": {
+		"./parser": {
+			"types": "./dist/parser/index.d.ts",
+			"default": "./dist/parser/index.js"
+		}
+	},
 	"devDependencies": {
 		"@kwangure/eslint-config-svelte": "^0.2.9",
 		"@replit/codemirror-lang-svelte": "^6.0.0",
@@ -134,7 +142,7 @@
 	},
 	"dependencies": {
 		"@changesets/cli": "^2.26.1",
-		"@kwangure/strawberry": "^0.60.2",
+		"@kwangure/strawberry": "^0.61.2",
 		"hine": "^0.0.12"
 	}
 }
