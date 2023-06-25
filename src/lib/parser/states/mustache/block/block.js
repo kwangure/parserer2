@@ -2,7 +2,7 @@ import { createBranchMonitor, createBranchState } from './branch/branch.js';
 import { createEndMonitor, createEndState } from './end/end.js';
 import { createNameMonitor, createNameState } from './name.js';
 import { createRawMonitor, createRawState } from './raw.js';
-import { PBlock, PBlockStatement } from '$lib/parser/nodes';
+import { PBlock, PBlockStatement } from '$lib/parser/nodes.js';
 import { h } from 'hine';
 
 /**

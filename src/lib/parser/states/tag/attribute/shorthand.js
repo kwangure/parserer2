@@ -1,5 +1,5 @@
 import { h } from 'hine';
-import { PShorthand } from '$lib/parser/nodes';
+import { PShorthand } from '$lib/parser/nodes.js';
 
 /**
  * @param {import('$lib/parser/types').ParserContext} context
@@ -71,8 +71,8 @@ export function createShortHandMonitor(context) {
 				},
 			}),
 			finalizeShorthandValue: h.action(() => {
-				const value = context.stack.pop({ expect: ['AttributeShorthand'] });
-				const attribute = context.stack.peek({ expect: ['Attribute'] });
+				const value = context.stack.pop({ expect: ['AttributeShorthand']});
+				const attribute = context.stack.peek({ expect: ['Attribute']});
 				attribute.append(value);
 				value.end = context.index + 1;
 				attribute.name = value.raw;

@@ -1,5 +1,5 @@
 import { h } from 'hine';
-import { PText } from '$lib/parser/nodes';
+import { PText } from '$lib/parser/nodes.js';
 
 export function createTextState() {
 	return h.atomic({

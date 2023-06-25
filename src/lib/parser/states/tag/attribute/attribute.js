@@ -4,7 +4,7 @@ import { createValueMonitor, createValueState } from './value/value.js';
 import { createBeforeState } from './name/before.js';
 import { createEqualsState } from './equals.js';
 import { h } from 'hine';
-import { PAttribute } from '$lib/parser/nodes';
+import { PAttribute } from '$lib/parser/nodes.js';
 
 /**
  * @param {import('$lib/parser/types').ParserContext} context

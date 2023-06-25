@@ -1,5 +1,5 @@
 import { h } from 'hine';
-import { PMustache } from '$lib/parser/nodes';
+import { PMustache } from '$lib/parser/nodes.js';
 
 /**
  * @param {import('$lib/parser/types').ParserContext} context

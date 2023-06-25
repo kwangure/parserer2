@@ -4,7 +4,7 @@ import { createSingleQuotedMonitor, createSingleQuotedState } from './single_quo
 import { createUnquotedMonitor, createUnquotedState } from './unquoted.js';
 import { createBeforeState } from './before.js';
 import { h } from 'hine';
-import { PText } from '$lib/parser/nodes';
+import { PText } from '$lib/parser/nodes.js';
 
 /**
  * @param {import('$lib/parser/types').ParserContext} context

@@ -1,5 +1,5 @@
 import { h } from 'hine';
-import { PElement } from '$lib/parser/nodes';
+import { PElement } from '$lib/parser/nodes.js';
 
 export function createOpenState() {
 	return h.atomic({
